@@ -17,7 +17,9 @@
 3. ファクトの信頼度ランク（そのまま登壇で言えるか／裏取りが要るか）
 4. 未確認事項・要確認リスト
 
-> **調査環境の制約**: 本セッション環境のネットワークポリシーにより `nutanix.com` を含む外部サイトへの直接アクセス（WebFetch）がブロックされている。Nutanix 製品の記述は検索結果のスニペットおよび三次情報（IT メディア）に基づく。**登壇前に公式ドキュメント／リリースノートでの裏取りが必須**（→ 第6節）。
+> **調査環境の制約**: 本セッション環境の組織egressポリシーにより、`nutanix.com` を含む外部サイトへの直接アクセスがブロックされている（環境再起動後も同様。`example.com` も同様に遮断される全面的な許可リスト方式で、Nutanix 固有の遮断ではない）。したがって Nutanix 製品の記述は Web 検索の結果および三次情報（IT メディア）に基づく。**登壇前に公式ドキュメント／リリースノートでの裏取りが必須**（→ 第6節）。
+>
+> 2026-08-10 の追加調査で、要確認項目のうち「対応プロバイダ一覧」「MCPガバナンスの提供ステータス」「デプロイ先」「推論エンジン」は解決済み。残る未確認項目は第6節を参照。
 
 ---
 
@@ -74,14 +76,17 @@ Developer に最も刺さるパート。ここで共感を取る。
 
 | # | スライド | 内容 |
 |---|---|---|
-| 16 | Gateway の責務定義 | 認証・認可 / ルーティング / フォールバック / レート制限 / トークン計測 / 監査ログ / MCPガバナンス |
-| 17 | 位置づけ図 | アプリ・エージェント → Gateway → （外部プロバイダ群 ／ セルフホスト推論） |
-| 18 | データプレーンとコントロールプレーンの分離 | ポリシー定義と実際のトラフィック処理を分ける。運用者が触る面と開発者が触る面 |
-| 19 | 一般解としての市場 | OSS/SaaS 各種（LiteLLM＝自前運用向け、Portkey＝マネージド、Kong AI Gateway＝既存API管理の延長）。**OpenAI互換API がデファクト**になったことで抽象化が現実的になった |
-| 20 | エンタープライズで足りなくなる点 | ①セルフホストモデルと外部モデルを同一の統制下に置けるか ②オンプレ／エアギャップで動くか ③マルチテナント・部門別のコスト按分 ④監査要件 |
-| 21 | 評価軸まとめ | 第2章の4条件 × Gateway 機能のマッピング表 |
+| 16 | **既視感のある話です** | **API Gateway が10年前に通った道と同じ**。生の接続性（REST API）は、ガバナンスの外皮を被せて初めてエンタープライズが本番で信頼した。エージェントとモデルにいま同じことが起きている ← **本セッション最大の説得装置** |
+| 17 | Gateway の責務定義 | 認証・認可 / ルーティング / フォールバック / レート制限 / トークン計測 / 監査ログ / MCPガバナンス。API Gateway の責務と1対1で並べて見せる |
+| 18 | 位置づけ図 | アプリ・エージェント → Gateway → （外部プロバイダ群 ／ セルフホスト推論 ／ MCPサーバー群） |
+| 19 | データプレーンとコントロールプレーンの分離 | ポリシー定義と実際のトラフィック処理を分ける。運用者が触る面と開発者が触る面 |
+| 20 | 一般解としての市場 | ①汎用AI Gateway: LiteLLM（自前運用）／Portkey（マネージド）／Kong AI Gateway（既存API管理の延長） ②**Agent Gateway という新カテゴリ**: Nutanix / Palo Alto Networks / AWS が参入、Snowflake も Cortex AI Gateway を投入。**OpenAI互換API がデファクト**になったことで抽象化が現実的になった |
+| 21 | エンタープライズで足りなくなる点 | ①セルフホストモデルと外部モデルを同一の統制下に置けるか ②オンプレ／エアギャップで動くか ③マルチテナント・部門別のコスト按分 ④監査要件 |
+| 22 | 評価軸まとめ | 第2章の4条件 × Gateway 機能のマッピング表 |
 
 **この章の狙い**: 中立的な一般論を先に立てる。ここを丁寧にやるほど、次章の製品パートの説得力が上がる。IT Pro/Developer は製品紹介から入ると身構える。
+
+> **スライド16は追加を強く推奨**: Forbes（Janakiram MSV, 2026-07-05）が使っている「API Gateway の再来」という枠組みは、IT Pro にとって**既に体で理解している比喩**。「Agent Gateway という新しい何か」ではなく「知っているパターンのAI版」として提示できるため、理解コストが劇的に下がる。**この1枚を入れると以降の章番号が+1される**（総枚数 約35枚）。
 
 ### 第5章 Nutanix Agentic AI と Nutanix Agent Gateway（10分 / 8枚）
 
@@ -89,12 +94,13 @@ Developer に最も刺さるパート。ここで共感を取る。
 |---|---|---|
 | 22 | Nutanix Agentic AI 全体像 | インフラ（Nutanix Cloud Platform）+ Kubernetes（NKP）+ ストレージ（NUS）+ **Nutanix Enterprise AI（NAI）= 中央AIコントロールプレーン**。NAI は Agent Gateway と Inference Management で構成 |
 | 23 | Agent Gateway とは | エージェント / LLM / 業務ツール間のやり取りを束ねる「中央の玄関口（front door）」。エージェント活動の統制・アクセスポリシー・トークン消費監視を単一のコントロールポイントで |
-| 24 | 機能① 単一APIでマルチプロバイダ | 外部プロバイダのモデルとセルフホストモデルを単一APIで。ユースケースごとに最適なモデルを選べる＝ロックイン回避 |
-| 25 | 機能② 自動フォールバック | プライマリがダウン／レート制限に当たると、設定済みバックアップへ自動フェイルオーバー。**アプリのコード変更なし** |
-| 26 | 機能③ トークン可観測性とコスト統制 | モデルベンダー横断の集中トークン可観測性。使用量トラッキング・コスト按分・トークンベースのレート制限。**「見える → 減らせる／移せる」** |
-| 27 | 機能④ MCPガバナンス | MCPサーバーへの粒度の細かいアクセス制御。エージェントが業務ツール・プライベートデータに安全に接続。（※提供ステータス要確認：Tech Preview との情報あり） |
+| 24 | 機能① 単一APIでマルチプロバイダ | **OpenAI互換の単一インターフェース**で OpenAI / Anthropic / Google Gemini / Azure OpenAI / AWS Bedrock、さらに Groq / Together / Mistral / Cohere / DeepSeek / SambaNova ＋ セルフホストモデル。ユースケースごとに最適なモデルを選べる＝ロックイン回避 |
+| 25 | 機能② 自動フォールバック | 複数の上流プロバイダを設定し、プライマリが**障害を起こした場合／予算を超過した場合**に、健全なフォールバック先へ自動ルーティング。**アプリのコード変更なし** |
+| 26 | 機能③ トークン可観測性とコスト統制 | モデルベンダー横断の集中トークン可観測性。トークン割当（quota）を中央で強制し、**エージェント別・チーム別**の使用量をリアルタイム可視化。**「見える → 減らせる／移せる」** |
+| 27 | 機能④ MCPガバナンス **[Tech Preview]** | MCPサーバーへの粒度の細かいアクセス制御。ゲートウェイ側での**APIキー注入**による統一的なRBAC。GitHub / Stripe 等の業務ツールへ安全に接続。**本番利用はまだ想定されていない点を正直に伝える** |
 | 28 | 機能⑤ 監査ログ | リクエスト単位の監査ログ。誰の・どのエージェントが・どのモデルに・何トークン |
-| 29 | 動く場所 | オンプレ／エッジ／NEO Cloud／OEMパートナー基盤／パブリッククラウド。ソブリン対応 |
+| 29 | 動く場所 | **任意のCNCF準拠Kubernetes**（NKP / Rancher / ベアメタル / AWS・Azure・GCPのコンテナ基盤）。オンプレ／エッジ／NEO Cloud／OEMパートナー基盤。ソブリン対応 |
+| 29b | （任意）推論エンジンの中身 | NAI の推論エンジンは **vLLM**、NGC検証済みモデルは **NVIDIA NIM**。モデルを選べばエンジン設定・GPUスケジューリング・オートスケール・ヘルスチェックは NAI が自動構成。モデルの重みは Hugging Face / NVIDIA NGC から NFS ストレージへ ← **Developer が「中身は何か」を気にするので1枚あると信頼が上がる** |
 
 **押さえどころ**: NAI 2.7 で Agent Gateway が GA。NAI 2.6 時点で「AI Gateway」として統一推論エンドポイント・認証・可観測性・トークンベースのレート制限が入り、2.7 で Agent Gateway に発展という流れ。
 
@@ -206,16 +212,36 @@ Developer に最も刺さるパート。ここで共感を取る。
 |---|---|---|
 | Nutanix Agent Gateway は Nutanix Enterprise AI 2.7 の一部として GA | B | [Nutanix Blog](https://www.nutanix.com/blog/introducing-nutanix-agent-gateway) / [ITdaily](https://itdaily.com/news/software/nutanix-launches-agent-gateway/) |
 | エージェント／LLM／業務ツール間のやり取りを管理する「中央の front door」。エージェント活動の統制・アクセスポリシー管理・トークン消費監視の単一コントロールポイント | B | [iTWire](https://itwire.com/business-it-news/data/nutanix-strengthens-agentic-ai-governance-and-cost-control-with-agent-gateway) / [IT Brief AU](https://itbrief.com.au/story/nutanix-launches-agent-gateway-to-govern-ai-agents) |
-| プライマリプロバイダのダウン／レート制限時に、設定済みバックアップへ自動フェイルオーバー。**アプリケーションコードの書き換え不要** | B | 検索スニペット（NAI 2.7 関連） — **要一次情報での裏取り** |
+| AI Gateway は複数の上流プロバイダに接続するよう設定でき、プライマリが**障害を起こすか予算を超過**すると、健全なフォールバック先へ自動的にトラフィックがルーティングされる。**アプリケーションコードの書き換え不要** | B | 検索スニペット（NAI 2.7 関連） — 「予算超過でも切り替わる」点は障害起因のフェイルオーバーと別軸なので**要一次情報での裏取り** |
+| OpenAI互換の単一インターフェースで、OpenAI / Anthropic / Google Gemini / Azure OpenAI / AWS Bedrock、加えて Groq / Together / Mistral / Cohere / DeepSeek / SambaNova 等に接続 | B | 検索スニペット（NAI 2.7 関連） |
+| トークン割当・上限を中央で強制し、**すべてのエージェント・チーム**にわたるトークン使用量をリアルタイムに可視化 | B | [Nutanix Blog](https://www.nutanix.com/blog/introducing-nutanix-agent-gateway) 経由 |
+| NAI の推論エンジンは **vLLM**、NGC検証済みモデルには **NVIDIA NIM** を使用。いずれも NAI が自動構成し、エンジン設定・GPUスケジューリング・オートスケーリング・ヘルスチェックを担う。モデルの重みは Hugging Face / NVIDIA NGC から NFS ストレージへ取得 | B | 検索スニペット（NAI アーキテクチャ解説） |
+| NAI は任意の CNCF準拠 Kubernetes に展開可能（NKP、Rancher、Docker、ベアメタル、AWS/Azure/GCP のコンテナインスタンス） | B | [Nutanix Enterprise AI 製品ページ](https://www.nutanix.com/products/nutanix-enterprise-ai) 経由 |
+| MCPサーバーに対する統一的なセキュリティと RBAC を、**ゲートウェイインターフェースでのAPIキー注入**により実現 | B | 検索スニペット（NAI アーキテクチャ解説） |
 | モデルベンダー横断の集中トークン可観測性。使用量トラッキング・コスト按分・過剰なトークン消費の抑制 | B | [iTWire](https://itwire.com/business-it-news/data/nutanix-strengthens-agentic-ai-governance-and-cost-control-with-agent-gateway) |
 | 外部プロバイダのモデルとセルフホストモデルに単一APIでアクセス可能 | B | [Nutanix Blog](https://www.nutanix.com/blog/introducing-nutanix-agent-gateway) |
-| MCPサーバーへの粒度の細かいアクセス制御（Governance for MCP）。GitHub / Stripe 等のツールへの安全な接続。**Tech Preview との記載あり** | B | 検索スニペット — **提供ステータス要確認** |
+| MCPサーバーへの粒度の細かいアクセス制御（Governance for MCP）。GitHub / Stripe 等のツールへの安全な接続。**MCPサーバーガバナンスと同梱のテストエージェントは Tech Preview であり、本番利用は想定されていない**（Agent Gateway 本体は GA） | B | [tech-critter](https://www.tech-critter.com/nutanix-agent-gateway-general-availability/) ほか複数の報道で一致 |
+| Agent Gateway は「エージェントと、それらが呼ぶモデルとの間」および「MCPサーバーと、それらがラップする業務ツールとの間」に位置するコントロールプレーン | B | 検索スニペット（NAI アーキテクチャ解説） |
 | リクエスト単位の監査ログ | B | [Security Storage und Channel Germany](https://security-storage-und-channel-germany.de/language/en/nutanix-launches-agent-gateway-to-tame-ai-costs-and-governance/) |
 | 可視化により、セルフホストモデルへ移せるワークロードを特定でき、外部サービス依存とコストを下げられる | B | [SourceSecurity](https://www.sourcesecurity.com/news/nutanix-agent-gateway-centralised-ai-governance-co-1568897613-ga.1783359990.html) |
 | NAI 2.6 時点で AI Gateway として、クラウドホスト型/プライベートLLMへの統一セキュア推論エンドポイント、認証、可観測性、トークンベースのレート制限を提供。MCPサーバーとFine Tuningのサポートを追加 | B | [Nutanix Blog (NAI 2.6)](https://www.nutanix.com/blog/orchestrating-the-hybrid-ai-frontier) |
 | Nutanix Agentic AI は NAI を中央AIコントロールプレーン（Agent Gateway + Inference Management）とし、インフラ・Kubernetes・データを統合。オンプレ／NEO Cloud／OEMパートナー基盤にまたがるソブリン対応 | B | [Nutanix プレスリリース](https://www.nutanix.com/press-releases/2026/nutanix-unveils-nutanix-agentic-ai) |
 | NAI は CNCF準拠のKubernetes（NKP含む）上に展開可能。NVIDIA NIM / NeMo マイクロサービスと統合 | B | [Nutanix Blog](https://www.nutanix.com/blog/nutanix-enterprise-ai-makes-agents) |
 | 2026年後半に、マルチテナンシー基盤 Nutanix Service Provider Central と、AIエンジニア向けのセルフサービス型マルチテナントAI管理ポータルを追加予定（neocloud向け） | B | [Nutanix プレスリリース (2026-04-07)](https://www.nutanix.com/press-releases/2026/nutanix-to-extend-nutanix-agentic-ai-empowering-neoclouds-to-deliver-higher-value-ai-services) / [Blocks & Files](https://www.blocksandfiles.com/hci/2026/04/07/nutanix-pushes-agentic-ai-bare-metal-kubernetes-at-next-2026/5214682) |
+
+### 市場カテゴリとしての Agent Gateway
+
+| ファクト | 信頼度 | 出典 |
+|---|---|---|
+| Agent Gateway は新興の製品カテゴリとして立ち上がっており、エージェントと、それが関わるモデル・API・業務ツールの間に位置するコントロールプレーンとして、集中監査・アクセス管理・セキュリティポリシー適用を担う | B | [Forbes / Janakiram MSV (2026-07-05)](https://www.forbes.com/sites/janakirammsv/2026/07/05/agent-gateways-are-becoming-the-control-plane-for-enterprise-ai/) |
+| **このパターンは10年前のAPI Gatewayの再来。生の接続性は、エンタープライズが本番で信頼する前にガバナンスの外皮を必要とした** | B | 同上 |
+| エージェントを数個以上本番投入した企業では、集中コントロールプレーンがないと監査可能性が崩壊し、セキュリティポスチャが劣化する | B | 同上 |
+| Nutanix、Palo Alto Networks、AWS が Agent Gateway 機能を構築中。Nutanix は2026年5月下旬に NAI 2.7 の一部として Agent Gateway を GA 出荷し、このカテゴリに明確な形を与えた | B | 同上 |
+| Snowflake も Cortex AI Gateway を投入し、AIエージェントの統制と暴走コストの抑止を掲げている | B | [VentureBeat](https://venturebeat.com/security/snowflake-launches-cortex-ai-gateway-to-control-ai-agents-and-prevent-runaway-enterprise-costs) |
+
+> **使い方**: 「API Gateway の再来」は本セッションで最も強い説得装置。IT Pro は API Gateway の導入経緯を体で知っているため、Agent Gateway を「新しい何か」ではなく「知っているパターンのAI版」として一瞬で受け取れる。第4章の冒頭（スライド16）に置くことを推奨。
+>
+> あわせて「Nutanix だけが言っている話ではない」ことの証明にもなる。AWS・Palo Alto・Snowflake が同じ方向に動いている事実を示せば、セッション全体が製品広告ではなく業界動向の解説として成立する。
 
 ---
 
@@ -227,9 +253,17 @@ Developer に最も刺さるパート。ここで共感を取る。
 |---|---|---|
 | 提供元 | Nutanix | Solo.io（OSS、CNCF系エコシステム） |
 | 位置づけ | Nutanix Enterprise AI 2.7 の構成要素 | Kubernetes ネイティブの OSS エージェント接続基盤 |
-| フェイルオーバー | 「プライマリ障害時に設定済みバックアップへ自動フェイルオーバー」 | `AgentgatewayBackend` の priority group による優先度ベースのフェイルオーバー、outlier detection によるアンヘルシーなバックエンドの排除 |
+| フェイルオーバー | 「プライマリの障害時／予算超過時に、健全なフォールバック先へ自動ルーティング」 | `AgentgatewayBackend` の priority group による優先度ベースのフェイルオーバー、outlier detection によるアンヘルシーなバックエンドの排除 |
+| キー管理 | トークン割当の中央強制、エージェント別・チーム別の可視化 | API キー認証 + トークンベースのレート制限 + 可観測性を組み合わせた「virtual keys」 |
 
-検索結果では両者の記述が混在して返ってくる。**`AgentgatewayBackend`、priority group、outlier detection といった具体的な実装用語は Solo.io 側のものであり、Nutanix の機能としてスライドに書いてはいけない。** Nutanix 側のフェイルオーバー実装の詳細（検知条件、切替単位、リトライ回数、ヘルスチェック方式など）は公式ドキュメントで確認すること。
+検索結果では両者の記述が混在して返ってくる（2026-08-10 の再調査でも複数回混入を確認）。以下の用語は **Solo.io 側のものであり、Nutanix の機能としてスライドに書いてはいけない**。
+
+- `AgentgatewayBackend`
+- priority group（優先度グループによるフェイルオーバー順序）
+- outlier detection
+- virtual keys
+
+Nutanix 側のフェイルオーバー実装の詳細（検知条件、切替単位、リトライ回数、ヘルスチェック方式など）は公式ドキュメントで確認すること。
 
 ---
 
@@ -263,17 +297,38 @@ IT Pro / Developer からは実装の詳細が飛んでくる。準備してお�
 
 ## 6. 登壇前の要確認リスト
 
-本調査は外部サイトへの直接アクセスが制限された環境で行っており、Nutanix 製品の記述は報道・検索スニペット由来。**以下は公式ドキュメント／リリースノート／自社の製品担当で裏取りしてからスライドに確定させること。**
+本調査は外部サイトへの直接アクセスが制限された環境で行っており、Nutanix 製品の記述は報道・検索結果由来。**以下は公式ドキュメント／リリースノート／自社の製品担当で裏取りしてからスライドに確定させること。**
 
-- [ ] Agent Gateway のフェイルオーバー実装の詳細（検知条件・切替単位・設定方法）
-- [ ] MCPガバナンスの提供ステータス（GA か Tech Preview か）と、アクセス制御の粒度
-- [ ] トークン可観測性のメトリクス粒度と、ダッシュボードの実際の画面
-- [ ] 対応する外部プロバイダの一覧
+### 解決済み（2026-08-10 の追加調査）
+
+- [x] ~~MCPガバナンスの提供ステータス~~ → **Tech Preview**（Agent Gateway 本体は GA）。同梱のテストエージェントも Tech Preview
+- [x] ~~対応する外部プロバイダの一覧~~ → OpenAI互換の単一IFで OpenAI / Anthropic / Google Gemini / Azure OpenAI / AWS Bedrock ＋ Groq / Together / Mistral / Cohere / DeepSeek / SambaNova
+- [x] ~~デプロイ先~~ → 任意の CNCF準拠 Kubernetes（NKP / Rancher / ベアメタル / AWS・Azure・GCP）
+- [x] ~~推論エンジンの実体~~ → vLLM ＋ NVIDIA NIM（NGC検証済みモデル）
+
+### 未解決（要裏取り）
+
+- [ ] Agent Gateway のフェイルオーバー実装の詳細（検知条件・切替単位・リトライ回数・ヘルスチェック方式・設定方法）
+- [ ] **「予算超過（exceeds its budget）でもフォールバックする」の正確な仕様** — 障害起因の切替とは別軸の挙動。事実なら訴求点として強いので要確認
+- [ ] トークン可観測性のメトリクス粒度と、ダッシュボードの実際の画面（デモ用）
+- [ ] MCPアクセス制御の粒度（サーバー単位／ツール単位／引数レベル）
 - [ ] NAI 2.7 のリリースノート全体（本資料に載せていない機能があるはず）
-- [ ] Agent Gateway 自体の冗長構成・HA 構成の推奨
+- [ ] Agent Gateway 自体の冗長構成・HA 構成の推奨（Q&Aで必ず訊かれる）
+- [ ] 監査ログにプロンプト本文が含まれるか
 - [ ] 日本国内での提供状況・サポート体制
 - [ ] 「2026年に日本政府がソブリンAI政策を本格始動」の一次情報（政府発表の特定）
 - [ ] コスト系の統計（信頼度C）を使うかどうかの判断。使うなら出典明記、使わないなら定性表現に置換
+
+### 参考になりそうな未読の情報源
+
+egress 制限で本文を読めていないが、タイトルから有用と判断されるもの。**手元の環境で確認を推奨**。
+
+- [Nutanix Blog: AI Series — Building the Enterprise AI Stack with Nutanix Agentic AI](https://www.nutanix.com/blog/building-enterprise-ai-stack-with-nutanix-agentic-ai) — スタック全体像。第5章スライド22の図の元ネタになる可能性が高い
+- [Nutanix Enterprise AI Datasheet](https://www.nutanix.com/library/datasheets/nutanix-enterprise-ai) — 仕様の一次情報
+- [Nutanix: Running Agentic AI at Scale Requires Control](https://www.nutanix.com/enterprise-agentic-ai) — 本セッションのメッセージと直結
+- [Nutanix Community: NAI 2.7 is Now Available](https://next.nutanix.com/nutanix-cloud-platform-for-ai-180/nutanix-enterprise-ai-nai-2-7-is-now-available-45620) — リリースノートへの導線
+- [YouTube: Nutanix AI 2.7 — AI Agent Gateway Explained](https://www.youtube.com/watch?v=fPKjOYKGsf0) — **デモ画面の参考に最有力**
+- [Nutanix Enterprise AI — Technical Field Guide](https://naifield.picklesbot.ai/) — 非公式と思われるが技術的な記述が詳しい。出典として使う場合は要注意
 
 ---
 
@@ -313,7 +368,14 @@ IT Pro / Developer からは実装の詳細が飛んでくる。準備してお�
 - [ITdaily: Nutanix launches Agent Gateway](https://itdaily.com/news/software/nutanix-launches-agent-gateway/)
 - [Blocks & Files: Nutanix pushes agentic AI, bare-metal Kubernetes at .NEXT 2026](https://www.blocksandfiles.com/hci/2026/04/07/nutanix-pushes-agentic-ai-bare-metal-kubernetes-at-next-2026/5214682)
 - [SiliconANGLE: Nutanix expands agentic AI infrastructure for neoclouds](https://siliconangle.com/2026/04/10/nutanix-expands-agentic-ai-infrastructure-power-neoclouds-nutanixnext/)
+- [Forbes / Janakiram MSV: Agent Gateways Are Becoming The Control Plane For Enterprise AI (2026-07-05)](https://www.forbes.com/sites/janakirammsv/2026/07/05/agent-gateways-are-becoming-the-control-plane-for-enterprise-ai/)
+- [VentureBeat: Snowflake launches Cortex AI Gateway](https://venturebeat.com/security/snowflake-launches-cortex-ai-gateway-to-control-ai-agents-and-prevent-runaway-enterprise-costs)
+- [tech-critter: Nutanix Agent Gateway General Availability](https://www.tech-critter.com/nutanix-agent-gateway-general-availability/)
+- [Nutanix: AI Series — Building the Enterprise AI Stack with Nutanix Agentic AI](https://www.nutanix.com/blog/building-enterprise-ai-stack-with-nutanix-agentic-ai)
+- [Nutanix: Running Agentic AI at Scale Requires Control](https://www.nutanix.com/enterprise-agentic-ai)
+- [Nutanix Enterprise AI 製品ページ](https://www.nutanix.com/products/nutanix-enterprise-ai)
 - [agentgateway.dev — Model failover（※Solo.io の別製品）](https://agentgateway.dev/docs/kubernetes/main/llm/failover/)
+- [agentgateway.dev — Virtual keys（※Solo.io の別製品）](https://agentgateway.dev/docs/kubernetes/main/llm/cost-controls/virtual-keys/)
 - [Cloud Security Alliance: Agentic MCP Security Best Practices](https://labs.cloudsecurityalliance.org/agentic/agentic-mcp-security-best-practices-v1/)
 - [CSA Research Note: MCP Security Crisis](https://labs.cloudsecurityalliance.org/research/csa-research-note-mcp-security-crisis-20260504-csa-styled/)
 - [Wiz: Understanding Model Context Protocol Security in 2026](https://www.wiz.io/academy/ai-security/model-context-protocol-security)
