@@ -724,6 +724,7 @@ egress 制限で本文を読めていないが、タイトルから有用と判�
 - [Nutanix: Running Agentic AI at Scale Requires Control](https://www.nutanix.com/enterprise-agentic-ai)
 - [Nutanix Enterprise AI 製品ページ](https://www.nutanix.com/products/nutanix-enterprise-ai)
 - [Red Hat Developer: LLM Semantic Router](https://developers.redhat.com/articles/2025/05/20/llm-semantic-router-intelligent-request-routing)
+- [LLM Semantic Router ドキュメント](https://llm-semantic-router.readthedocs.io/en/latest/overview/semantic-router-overview/)
 - [Maxim AI: Top 5 LLM Routing Techniques](https://www.getmaxim.ai/articles/top-5-llm-routing-techniques/)
 - [NeuralTrust: LLM Model Routing](https://neuraltrust.ai/blog/llm-model-routing)
 - [PR Newswire: Envoy AI Gateway Reaches v1.0](https://www.prnewswire.com/news-releases/envoy-ai-gateway-reaches-v1-0--establishing-the-open-source-standard-for-enterprise-ai-traffic-302808088.html)
