@@ -334,6 +334,7 @@ ul.b li::before{
   <p><strong>このドラフトの読み方。</strong> 各スライドの上に、テンプレートの推奨レイアウト名と【事実／提言／展望】の区分を表示しています。スライドは 10 × 5.625 in の実寸比で、文字サイズも pt 実寸で描画しているため、<strong>24pt・8行の制約に収まっているかをそのまま確認できます</strong>。</p>
   <p><strong>色は赤・緑を一切使用していません。</strong> 状態の区別（正常／異常、遮断／通過）は配色ではなく、線種・塗り・位置・ラベルで表現しています（テンプレート規程 2.4 のカラーユニバーサルデザイン要件）。</p>
   <p><strong>数値の出典は登壇前に一次情報での確認が必要です。</strong> 信頼度の低い二次情報に由来する数値はスライドに載せず、構造の説明に置き換えてあります（規程 2.5）。</p>
+  <p><strong>2026年8月21日、情報源を nutanix.com / next.nutanix.com に限定して再調査しました。</strong> その結果 <strong>3件の誤りを訂正</strong>しています ― ①フォールバックのトリガーに「予算超過」は含まれない（障害とレート制限到達の2つ） ②AI Gateway → Agent Gateway は発展ではなく<strong>改名</strong> ③<strong>セマンティックルーティングは公式サイトに存在しない</strong>（スライド34の注記を参照）。あわせて Distributed Scalability、Model Security Scanning など未計上だった機能を反映しました。</p>
 </div>
 
 <!-- ══════════ 固定・オープニング ══════════ -->
@@ -878,8 +879,8 @@ ul.b li::before{
     <div class="pad">
       <h3 class="h">NAI 2.7 で Agent Gateway が GA</h3>
       <ul class="b">
-        <li><em>2.6</em> AI Gateway ― 統一推論エンドポイント、認証、可観測性、トークンベースのレート制限</li>
-        <li><em>2.7</em> <span class="hl">Agent Gateway として GA</span></li>
+        <li><em>2.6</em> AI Gateway ― クラウド／プライベート双方のLLMに対する統一ポリシー制御</li>
+        <li><em>2.7</em> <span class="hl">Agent Gateway へ改名のうえ GA</span>（formerly the AI Gateway）</li>
       </ul>
       <p class="b small" style="margin-top:2.2cqw;padding-top:1.6cqw;border-top:2px solid var(--charco)">
         本日扱う3機能 ― 統合エンドポイント／トークンレートリミット／MCP接続制御<br>
@@ -897,11 +898,11 @@ ul.b li::before{
     <div class="pad">
       <h3 class="h"><span class="lead">統合エンドポイント 1／3</span>単一APIで、すべてのモデルへ</h3>
       <ul class="b">
-        <li><span class="hl">OpenAI互換の単一インターフェース</span></li>
-        <li>OpenAI／Anthropic／Google Gemini／Azure OpenAI／AWS Bedrock</li>
-        <li>Groq／Together／Mistral／Cohere／DeepSeek／SambaNova</li>
-        <li>＋ NAI 上のセルフホストモデル</li>
-        <li>用途に応じたモデル選択が可能 ＝ <span class="hl2">4層のロックインを同時に緩和</span></li>
+        <li>ホステッドモデルとセルフホストモデルを<span class="hl">単一のAPIで</span></li>
+        <li>Azure上のGPT-4、AnthropicのClaude、NAI上のLlama ― すべて同一の経路</li>
+        <li>AWS Bedrock、NVIDIA NIM、Hugging Face、独自モデルにも対応</li>
+        <li><span class="hl2">事前検証済みモデル 74種</span></li>
+        <li>用途に応じたモデル選択が可能 ＝ 4層のロックインを同時に緩和</li>
       </ul>
       <div class="conf">Nutanix Confidential</div><div class="pg">24</div>
     </div>
@@ -917,14 +918,15 @@ ul.b li::before{
       <ul class="b">
         <li>複数のモデルエンドポイント間で負荷を分散する</li>
         <li><span class="hl">複数クラスタ・複数のホステッドプロバイダに跨っていても分散可能</span></li>
-        <li>平常時のスループット確保とレイテンシの平準化</li>
+        <li><span class="hl2">リモートのNAIクラスタをプロバイダとして登録できる</span></li>
+        <li>インフラ全体に分散したGPUを活用し、スループットのボトルネックを解消</li>
         <li>単一プロバイダのレート上限に張り付かない設計</li>
       </ul>
       <div class="src">※ 分散アルゴリズム・重み付けの可否・ヘルスチェック方式は公式ドキュメントで要確認</div>
       <div class="conf">Nutanix Confidential</div><div class="pg">25</div>
     </div>
   </div>
-  <p class="note">必須4要素のひとつ。<b>仕様の裏取り優先度が最も高い</b>スライド。</p>
+  <p class="note">公式の Distributed Scalability（リモートNAIクラスタのプロバイダ登録）を追記した。<b>「複数クラスタに跨る分散」の具体的な実現手段</b>として、LBの説明が一段強くなる。</p>
 </article>
 
 <article class="card">
@@ -934,15 +936,15 @@ ul.b li::before{
       <h3 class="h"><span class="lead">統合エンドポイント 3／3</span>フォールバック — 異常時の退避</h3>
       <ul class="b">
         <li>複数の上流プロバイダをあらかじめ設定する</li>
-        <li>プライマリが<span class="hl">障害を起こした場合／予算を超過した場合</span></li>
-        <li>健全なフォールバック先へ自動的にルーティングされる</li>
+        <li>プライマリのモデルエンドポイントが<span class="hl">障害を起こした場合、またはレート制限に到達した場合</span></li>
+        <li>健全なバックアップのモデルエンドポイントへ自動的にルーティング</li>
         <li><span class="hl2">アプリケーションコードの改修は不要</span></li>
       </ul>
       <p class="b tiny" style="margin-top:1.6cqw">→ スライド6「単一プロバイダ 99.9%」への直接の回答</p>
       <div class="conf">Nutanix Confidential</div><div class="pg">26</div>
     </div>
   </div>
-  <p class="note">「予算超過でも切り替わる」は障害起因とは<b>別軸の挙動</b>。事実なら訴求点として強いので、正確な仕様の確認が必要。</p>
+  <p class="note"><b>訂正済み。</b>以前記載していた「予算超過でもフォールバック」は公式ソースで確認できなかったため削除した。公式のトリガーは<b>エンドポイント障害</b>と<b>レート制限到達</b>の2つ。</p>
 </article>
 
 <article class="card">
@@ -1061,15 +1063,15 @@ ul.b li::before{
     <div class="pad">
       <h3 class="h"><span class="lead">トークンレートリミット 2／2</span>中央で強制し、単位ごとに可視化する</h3>
       <ul class="b">
-        <li>トークン割当（quota）と上限を<span class="hl">中央で強制</span>する</li>
-        <li><span class="hl2">エージェント別・チーム別</span>にリアルタイムで可視化</li>
-        <li>モデルベンダーを横断して集約される</li>
-        <li>使用量の把握が、削減と移行判断の前提になる</li>
+        <li><span class="hl">エンドポイント単位</span>と<span class="hl">ユーザー単位</span>でトークンベースのレート制限</li>
+        <li>コストと流量のガバナンスを中央で強制する</li>
+        <li>モデルベンダーを横断してトークン使用量を可視化</li>
+        <li>目的は明快 ― <span class="hl2">bill shock を防ぐ</span></li>
       </ul>
       <div class="conf">Nutanix Confidential</div><div class="pg">29</div>
     </div>
   </div>
-  <p class="note">ダッシュボード画面のスクリーンショットが入手できれば、ここに差し込むと最も効果的。</p>
+  <p class="note">粒度を公式表記（per endpoint / per user）に修正。<b>"bill shock" は Nutanix 自身の言葉</b>なのでそのまま使える。ダッシュボード画面が入手できればここに差し込むと効果的。</p>
 </article>
 
 <article class="card">
@@ -1095,16 +1097,16 @@ ul.b li::before{
     <div class="pad">
       <h3 class="h">MCP接続制御 <span style="font-size:calc(14*var(--pt));font-weight:700;background:var(--charco);color:#fff;padding:.3cqw 1cqw;vertical-align:middle">Tech Preview</span></h3>
       <ul class="b">
-        <li>エージェントがどのMCPサーバーへ接続できるかを中央で制御</li>
-        <li><span class="hl">ゲートウェイ側でAPIキーを注入 ― エージェントは認証情報を保持しない</span></li>
-        <li>MCPリクエスト単位の監査ログ</li>
-        <li>MCPは仕様としてガバナンスを規定していないため、統制層が要る</li>
+        <li><span class="hl">APIキーごとに、アクセスできるツールを定義する</span></li>
+        <li>Tool-Level Filtering ― ツール単位で Read Only / Write を制御</li>
+        <li>個々のMCPサーバーではなく、<span class="hl2">ゲートウェイ側でAPIキーを注入</span></li>
+        <li>レイテンシと呼び出されたツール名を含む全リクエストを記録</li>
       </ul>
       <div class="src">※ MCPサーバーガバナンスおよび同梱テストエージェントは Tech Preview であり、本番利用は想定されていません</div>
       <div class="conf">Nutanix Confidential</div><div class="pg">31</div>
     </div>
   </div>
-  <p class="note"><b>Tech Preview である旨を隠さず明示する。</b>GA機能と混在させると全体の信頼性を損なう。GA予定時期は必ず訊かれるので事前確認を。</p>
+  <p class="note">公式で粒度が確定した。<b>ツール単位で Read Only / Write を分けられる</b>のが要点。例：カスタマーサービス用エージェントはDB読み取りのみ、DevOps用エージェントはGitHub書き込みまで許可。GA予定時期は必ず訊かれるので事前確認を。</p>
 </article>
 
 <article class="card">
@@ -1160,7 +1162,7 @@ ul.b li::before{
       <div class="conf">Nutanix Confidential</div><div class="pg">34</div>
     </div>
   </div>
-  <p class="note"><b>ロードマップである旨をスライド上に必ず明記する。</b>GA機能と混ぜると信頼を損なう。加えて未発表情報の開示可否を事前確認すること（規程2.5）。</p>
+  <p class="note" style="border-left:3px solid var(--chrome-accent);padding-left:14px"><b>⚠️ 公開情報に裏付けがありません。</b> nutanix.com を対象に再調査しましたが、<b>「semantic routing」という名称の機能・ロードマップは公式サイトに存在しませんでした</b>。公式に確認できる近縁機能は kvCache Aware Routing（NAI 2.6 / Tech Preview、TTFT削減が目的）と、Traefik Labs 側の intelligent model routing の2つで、いずれも別概念です。<b>社内ロードマップ情報である可能性が高いため、開示可否の確認を最優先で</b>（規程2.5）。
 </article>
 
 <article class="card">
@@ -1178,7 +1180,7 @@ ul.b li::before{
       <div class="conf">Nutanix Confidential</div><div class="pg">35</div>
     </div>
   </div>
-  <p class="note"><b>具体的な単価差の倍率は載せていない。</b>出典が二次情報で、かつ単価は変動するため。一次情報を特定できた場合のみ数値を追加する。</p>
+  <p class="note"><b>具体的な単価差の倍率は載せていない。</b>出典が二次情報で、かつ単価は変動するため。<br><b>代替案：</b>開示できない場合は、公式に裏付けのある <b>kvCache Aware Routing</b> をロードマップ章の題材にできる。ただし主旨が「コスト最適化」から「レイテンシ最適化（TTFT削減）」へ変わるため、第6章の見出しごと差し替えが必要。</p>
 </article>
 
 <!-- ══════════ 第7章 ══════════ -->

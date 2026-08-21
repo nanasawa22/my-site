@@ -546,6 +546,77 @@ Developer 層の実感に最も接続する章。**第5章の山場（トーク�
 
 ---
 
+## 4.5. ⚠️ 公式ソースのみでの再調査（2026-08-21）— 訂正と新発見
+
+`www.nutanix.com` / `next.nutanix.com` に情報源を限定して再調査した結果。**以前の記述に誤りが3件あり、訂正した。**
+
+> 直接アクセス（WebFetch / curl）は3ホストとも 403（組織egressポリシーによる拒否）で変わらず。プロキシのログにも `connect_rejected` として記録されている。そのため **Web検索の対象ドメインを nutanix.com に限定**する方法で、公式ソース由来の情報のみを収集した。
+
+### 訂正 ①　フォールバックのトリガーに「予算超過」は含まれない
+
+| | 内容 |
+|---|---|
+| ❌ 以前の記述 | プライマリが「障害を起こした場合／**予算を超過した場合**」にフォールバック |
+| ✅ 公式の記述 | 「**プライマリのモデルエンドポイントが障害を起こした場合**（if the primary model endpoint fails）、健全なバックアップのモデルエンドポイントへ自動的にトラフィックをルーティングする」／「プライマリプロバイダが**ダウンした場合、またはレート制限に到達した場合**」 |
+
+「予算超過（exceeds its budget）」は三次情報の言い換えに由来し、**公式ソースでは確認できなかった**。スライドから削除する。トリガーは**障害**と**レート制限到達**の2つ。
+
+### 訂正 ②　AI Gateway → Agent Gateway は「発展」ではなく「改名」
+
+公式表記は **「the Nutanix Agent Gateway (formerly the AI Gateway)」**。2.6 の AI Gateway が 2.7 で Agent Gateway に**改名されたうえで GA** になった、が正確。
+
+### 訂正 ③　セマンティックルーティングは公式サイトに存在しない
+
+**これは重要。** `nutanix.com` を対象に検索しても、**"semantic routing" という名称の機能・ロードマップは見つからなかった。** 公式に確認できる「賢いルーティング」は以下の2つで、いずれも別物。
+
+| 機能 | 内容 | 位置づけ |
+|---|---|---|
+| **kvCache Aware Routing** | 特定のGPUワーカーへリクエストを振り分け、無駄な再計算を回避。**TTFT（Time To First Token）と inter-token latency を削減** | NAI 2.6 で **Tech Preview**。Nutanix 自身の機能 |
+| **Intelligent model routing** | content / headers / load に基づき適切なモデル版数・エンドポイントへ振り分け | **Traefik Labs の Layer 7 ガバナンス機能**。Nutanix + Traefik 共同ソリューション側 |
+
+**セマンティックルーティング（意味内容に基づくモデル選択）は、どちらとも異なる概念。** ご指定の必須要素であるため構成には残しているが、**公開情報に裏付けがないため社内ロードマップ情報である可能性が高い。開示可否の確認を最優先で実施されたい**（規程2.5の未発表情報の扱い）。
+
+代替案として、公式に裏付けのある **kvCache Aware Routing** をロードマップ章の題材にする選択肢もある。ただしこちらは「コスト最適化」ではなく「レイテンシ最適化」の話になるため、章の主旨が変わる。
+
+### 確定した仕様（すべて nutanix.com / next.nutanix.com 由来）
+
+| 項目 | 公式の記述 |
+|---|---|
+| **ロードバランス** | 統合エンドポイントでのロードバランスに対応。**複数クラスタ上・複数のホステッドプロバイダに跨っていても**モデルエンドポイント間で負荷分散可能 |
+| **フォールバック** | 統合エンドポイント経由で endpoint fallback に対応。プライマリのモデルエンドポイント障害時に健全なバックアップへ自動ルーティング |
+| **レートリミットの粒度** | **エンドポイント単位（per endpoint）およびユーザー単位（per user）** のトークンベースレート制限。目的は **"bill shock" の防止** |
+| **MCP接続制御の粒度** | **Tool-Level Filtering** — ツールの能力単位（"Read Only" / "Write"）で制御。**APIキーごとにアクセス可能なツールを定義**する |
+| **MCPのキー管理** | 個々のMCPサーバーで設定するのではなく、**ゲートウェイインターフェースでAPIキーを注入**（Unified Security & RBAC for MCP Servers） |
+| **MCPの監査ログ** | **レイテンシと、呼び出された具体的なツール名**を含む全MCPリクエストを記録 |
+| **MCPの提供状況** | 公式ブログに **"(in Tech Preview)"** と明記。Agent Gateway 本体は GA |
+| **対応プロバイダ** | 公式の例示は **OpenAI / Anthropic / Azure（GPT-4）/ AWS Bedrock**、および NVIDIA NIM（NGCカタログ）・Hugging Face・独自アップロードモデル |
+
+> **注意**: 以前記載した Groq / Together / Mistral / Cohere / DeepSeek / SambaNova の一覧は**公式ソースでは確認できなかった**。スライドでは公式が例示している範囲に絞る。
+
+### 新発見（未計上だった NAI 2.7 の機能）
+
+| 機能 | 内容 | 本セッションでの活用 |
+|---|---|---|
+| **Model Security Scanning** | **Palo Alto Networks Prisma AIRS** と連携し、モデルのダウンロード時、**実行される前に**全モデルをスキャン | **データ主権・セキュリティの訴求を1枚強化できる。**「モデル自体が攻撃ベクタになる」論点は IT Pro に有効 |
+| **Distributed Scalability** | **リモートのNAIクラスタをプロバイダとして登録可能**。インフラ全体に分散したGPUを活用しスループットのボトルネックを解消 | **ロードバランスの説明を大幅に強化できる。**「複数クラスタに跨る分散」の具体的な実現手段 |
+| **Batch Inferencing** | 高速性を要さないワークロード向けのバッチ推論 | コスト最適化の選択肢として言及可 |
+| **Pre-configured Sample Agent** | NAI Labs が、MCPツールを統合エンドポイント経由で使うエージェントアプリをデフォルト化 | **デモの土台として利用できる可能性** |
+| **74 pre-validated models** | 事前検証済みモデルが74種 | 移植性の裏付けとして数値で提示できる |
+| **One Gateway. Three Estates.** | **Traefik Labs との共同ソリューション**。AHV上のVM、NKP上のコンテナ、GPU基盤上のAI推論エンドポイントを単一のイングレスで統合 | 第4章「API Gatewayとの構造的相似」の実例として使える |
+| **エアギャップ導入** | 公式の導入手順がドキュメント化されている | データ主権の訴求で「対応可能」と断言できる |
+
+### 未読の公式一次情報（アクセス可能な環境での確認を推奨）
+
+- [Nutanix Blog: Introducing Nutanix Agent Gateway](https://www.nutanix.com/blog/introducing-nutanix-agent-gateway)
+- [Nutanix Blog: AI Series — Building the Enterprise AI Stack with Nutanix Agentic AI](https://www.nutanix.com/blog/building-enterprise-ai-stack-with-nutanix-agentic-ai)
+- [Nutanix Blog: Nutanix Enterprise AI 2.6 — Orchestrating the Hybrid AI Frontier](https://www.nutanix.com/blog/orchestrating-the-hybrid-ai-frontier)
+- [Nutanix Blog: One Gateway. Three Estates. Zero Compromises.](https://www.nutanix.com/blog/one-gateway-three-estates-zero-compromises)
+- [Nutanix Community: NAI 2.7 is Now Available!](https://next.nutanix.com/nutanix-cloud-platform-for-ai-180/nutanix-enterprise-ai-nai-2-7-is-now-available-45620)
+- [Nutanix Enterprise AI Datasheet](https://www.nutanix.com/library/datasheets/nutanix-enterprise-ai)
+- **portal.nutanix.com の製品ドキュメント** — MCP Servers、エアギャップ導入手順など。ご指定の2ドメイン外だが Nutanix 公式であり、**仕様の一次情報としては最有力**
+
+---
+
 ## 5. ⚠️ 混同注意：Nutanix Agent Gateway ≠ agentgateway (Solo.io)
 
 調査中に判明した重要な注意点。**名前が非常に似た別製品が存在する**。
