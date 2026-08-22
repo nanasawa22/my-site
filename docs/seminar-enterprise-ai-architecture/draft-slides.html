@@ -153,20 +153,21 @@ body{
 .slide *{--pt:0.13889cqw}
 .pad{
   position:absolute;inset:0;
-  padding:5.2cqw 5.6cqw 4.6cqw;
+  padding:4.4cqw 5.6cqw 3.8cqw;
   display:flex;flex-direction:column
 }
 
 /* headline 28pt / ~2 lines */
 .h{
+  line-break:strict;word-break:normal;
   font-size:calc(28*var(--pt));font-weight:700;line-height:1.3;
-  margin:0 0 3.2cqw;letter-spacing:-.005em;text-wrap:balance
+  margin:0 0 2.4cqw;letter-spacing:-.005em;text-wrap:balance
 }
 .h .lead{display:block;font-size:calc(15*var(--pt));font-weight:500;color:#4A4A55;margin-bottom:.7cqw;letter-spacing:.04em}
 
 /* body 24pt / max 8 lines */
-.b{font-size:calc(24*var(--pt));line-height:1.55;margin:0;font-weight:400}
-.b li{margin:0 0 1.1cqw}
+.b{line-break:strict;word-break:normal;font-size:calc(24*var(--pt));line-height:1.45;margin:0;font-weight:400}
+.b li{margin:0 0 .7cqw}
 .b li:last-child{margin:0}
 ul.b{padding-left:1.5em;list-style:none}
 ul.b li{position:relative}
@@ -175,17 +176,19 @@ ul.b li::before{
   width:.42em;height:.42em;background:var(--charco)
 }
 .b em{font-style:normal;font-weight:700}
-.b .hl{background:linear-gradient(transparent 58%,var(--iris) 58%);font-weight:700}
-.b .hl2{background:linear-gradient(transparent 58%,var(--aqua) 58%);font-weight:700}
+.b .hl{background:linear-gradient(transparent 62%,var(--iris) 62%);font-weight:700}
+.b .hl2{background:linear-gradient(transparent 62%,var(--aqua) 62%);font-weight:700}
+.b.small .hl{background:linear-gradient(transparent 68%,var(--iris) 68%)}
+.b.small .hl2{background:linear-gradient(transparent 68%,var(--aqua) 68%)}
 
-.small{font-size:calc(19*var(--pt))}
+.small{font-size:calc(18*var(--pt))}
 .tiny{font-size:calc(16*var(--pt))}
 
 /* source — 10pt bottom-left per rule 2.5 */
 .src{
-  position:absolute;left:5.6cqw;bottom:2.0cqw;
+  margin-top:.9cqw;
   font-size:calc(10*var(--pt));color:#4A4A55;line-height:1.45;
-  max-width:78cqw
+  max-width:88cqw
 }
 .conf{
   position:absolute;right:5.6cqw;bottom:2.0cqw;
@@ -197,10 +200,10 @@ ul.b li::before{
 }
 
 /* ── slide interior layouts ── */
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:3.4cqw;flex:1;min-height:0}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:3.0cqw;flex:1;min-height:0}
 .col-h{
-  font-size:calc(15*var(--pt));font-weight:700;letter-spacing:.06em;
-  padding-bottom:.9cqw;margin:0 0 1.6cqw;border-bottom:2px solid var(--charco)
+  font-size:calc(14*var(--pt));font-weight:700;letter-spacing:.06em;
+  padding-bottom:.7cqw;margin:0 0 1.2cqw;border-bottom:2px solid var(--charco)
 }
 .col--alt .col-h{border-bottom-color:var(--chrome-accent)}
 
@@ -221,12 +224,12 @@ ul.b li::before{
 }
 
 /* mapping table */
-.map{width:100%;border-collapse:collapse;font-size:calc(17*var(--pt))}
+.map{width:100%;border-collapse:collapse;font-size:calc(16*var(--pt))}
 .map th{
   text-align:left;font-size:calc(12*var(--pt));letter-spacing:.08em;
   font-weight:700;color:#4A4A55;padding:0 0 .9cqw;border-bottom:2px solid var(--charco)
 }
-.map td{padding:1.15cqw 0;border-bottom:1px solid var(--layer1);vertical-align:top;line-height:1.4}
+.map td{padding:.85cqw 0;border-bottom:1px solid var(--layer1);vertical-align:top;line-height:1.4}
 .map td:first-child{font-weight:700;width:34%;padding-right:2cqw}
 .map tr:last-child td{border-bottom:none}
 .map .road td{color:#3A3A46}
@@ -276,6 +279,24 @@ ul.b li::before{
 }
 .legend span{display:flex;align-items:center;gap:.6cqw}
 .key{width:1.5cqw;height:1.5cqw;border:1px solid var(--charco);flex:none}
+
+
+/* conclusion strip — one-line takeaway, pinned to the bottom of the content area */
+.concl{
+  margin-top:auto;
+  display:flex;align-items:baseline;gap:1.4cqw;
+  padding-top:.85cqw;border-top:2px solid var(--charco);
+}
+.concl b{
+  flex:none;font-size:calc(10*var(--pt));font-weight:700;letter-spacing:.14em;
+  background:var(--charco);color:#fff;padding:.3cqw 1cqw;
+}
+.concl span{line-break:strict;font-size:calc(14*var(--pt));font-weight:700;line-height:1.3}
+.slide--dark .concl{border-top-color:#4A4A55}
+.slide--dark .concl b{background:var(--aqua);color:var(--charco)}
+.slide--dark .concl span{color:#fff}
+/* slides carrying a source line need extra room beneath the strip */
+.pad{padding-bottom:3.8cqw}
 
 /* footer */
 .foot{
@@ -380,6 +401,7 @@ ul.b li::before{
         <tr><td>データ主権</td><td>MCP接続制御</td></tr>
         <tr class="road"><td>（横断する最適化）</td><td>セマンティックルーティング【ロードマップ】</td></tr>
       </table>
+      <div class="concl"><b>結論</b><span>この対応関係が、本日の地図になる</span></div>
       <div class="conf">Nutanix Confidential</div><div class="pg">3</div>
     </div>
   </div>
@@ -436,6 +458,7 @@ ul.b li::before{
         </svg>
       </div>
       <p class="b tiny" style="margin-top:.6cqw">学習は2026年がピーク（CAGR 0.3%）／ 推論は<span class="hl">CAGR 13.6%</span>で 2030年 5,528億円へ。<span class="hl2">「作る」から「使い続ける」フェーズへ</span></p>
+      <div class="concl"><b>結論</b><span>AI基盤は「作る」から「使い続ける」フェーズへ移った</span></div>
       <div class="src">Source: IDC, 2026<br>Note: IDC Japan『2026年 国内AIインフラおよびAI向けITインフラサービス市場動向分析：推論が主導する競争軸の転換』（Doc #JPJ54233926, March 2026）の Table 3 を基に作成</div>
       <div class="conf">Nutanix Confidential</div><div class="pg">4</div>
     </div>
@@ -468,6 +491,7 @@ ul.b li::before{
           </ul>
         </div>
       </div>
+      <div class="concl"><b>結論</b><span>単一プロバイダのSLAは、基幹業務のSLOを満たさない</span></div>
       <div class="src">出所：Microsoft Azure「Azure status history」（Tracking ID 参照）／ OpenAI Help Center、各社公開ドキュメント。年間停止時間は 8,760時間 × 0.1% として算出（自社計算）</div>
       <div class="conf">Nutanix Confidential</div><div class="pg">5</div>
     </div>
@@ -488,6 +512,7 @@ ul.b li::before{
         <div class="cell"><p class="cell-n">05</p><p class="cell-t">リージョン障害</p><p class="cell-d">地域単位での影響</p></div>
         <div class="cell cell--fill"><p class="cell-t" style="margin:auto 0">アプリから見れば<br>5類型すべてが<br>等価な「処理不能」</p></div>
       </div>
+      <div class="concl"><b>結論</b><span>アプリから見れば、5類型はすべて等価な「処理不能」である</span></div>
       <div class="conf">Nutanix Confidential</div><div class="pg">6</div>
     </div>
   </div>
@@ -508,7 +533,7 @@ ul.b li::before{
         <div class="cell"><p class="cell-t">データ主権 <span style="font-weight:400;font-size:.8em;color:#5A5A66">Data Sovereignty</span></p><p class="cell-d">機密データの所在と準拠法域を組織が統制できること</p></div>
         <div class="cell"><p class="cell-t">移植性 <span style="font-weight:400;font-size:.8em;color:#5A5A66">Portability</span></p><p class="cell-d">特定プロバイダに依存せず、モデル・基盤を代替可能に保てること</p></div>
       </div>
-      <p class="b tiny" style="margin-top:1.4cqw"><span class="hl">4要件はいずれも、国内のAIインフラ意思決定者調査で上位に現れる</span></p>
+      <div class="concl"><b>結論</b><span>この4つは、国内のAIインフラ意思決定者が実際に求めているものである</span></div>
       <div class="src">Source: IDC, 2026<br>Note: IDC Japan『2026年 国内AIインフラおよびAI向けITインフラサービス市場動向分析』（Doc #JPJ54233926, March 2026）<br>Note: 「Japan Digital and AI Infrastructure Strategies and Investment Survey 2026」（n=551）および「Japan AI Technology Strategy and Adoption Survey 2026」（n=1,250）を基に作成</div>
       <div class="conf">Nutanix Confidential</div><div class="pg">7</div>
     </div>
@@ -527,18 +552,19 @@ ul.b li::before{
           <ul class="b small">
             <li>推論 → 行動 → 観測 → 再推論</li>
             <li>反復回数はタスクの難易度に依存</li>
-            <li><span class="hl">同一の業務でも消費量が一定しない</span></li>
+            <li><span class="hl">同一業務でも消費量が一定しない</span></li>
           </ul>
         </div>
         <div class="col--alt">
           <p class="col-h">② 価格 ― 為替で変動する</p>
           <ul class="b small">
             <li>海外プロバイダの課金はドル建て</li>
-            <li><span class="hl2">急激な為替変動が利用料の急騰を招く</span></li>
-            <li>ソブリンAI推進目的の第2位が為替リスクの回避</li>
+            <li><span class="hl2">為替変動が利用料の急騰を招く</span></li>
+            <li>ソブリンAI推進目的の第2位</li>
           </ul>
         </div>
       </div>
+      <div class="concl"><b>結論</b><span>量と価格の双方が動くため、事前見積りは原理的に成立しない</span></div>
       <div class="src">Source: IDC, 2026<br>Note: IDC Japan『2026年 国内AIインフラおよびAI向けITインフラサービス市場動向分析』（Doc #JPJ54233926, March 2026）<br>Note: 「Japan AI Technology Strategy and Adoption Survey 2026」（n=1,250）を基に作成。産業分野別では金融・流通／サービスが為替リスクを特に重視</div>
       <div class="conf">Nutanix Confidential</div><div class="pg">8</div>
     </div>
@@ -557,6 +583,7 @@ ul.b li::before{
         <li><span class="hl">エージェントは業務ツール・内部DBにも接続する</span></li>
         <li>モデルへの経路だけを統制しても、統制は完成しない</li>
       </ul>
+      <div class="concl"><b>結論</b><span>統制すべき経路は、モデルへの経路だけではない</span></div>
       <div class="src">Source: IDC, 2026<br>Note: IDC Japan『2026年 国内AIインフラおよびAI向けITインフラサービス市場動向分析』（Doc #JPJ54233926, March 2026）<br>Note: ソブリンAI推進目的の第1位は「データ主権の確保」。「Japan AI Technology Strategy and Adoption Survey 2026」（n=1,250）を基に作成</div>
       <div class="conf">Nutanix Confidential</div><div class="pg">9</div>
     </div>
@@ -579,7 +606,7 @@ ul.b li::before{
         <div class="cell"><p class="cell-n">数十秒〜数分</p><p class="cell-t">サーキットブレーカー</p><p class="cell-d">劣化したエンドポイントを切り離し、連鎖を止める</p></div>
         <div class="cell"><p class="cell-n">数分〜数時間</p><p class="cell-t">フォールバック</p><p class="cell-d">長期障害。別の供給元へ退避する</p></div>
       </div>
-      <p class="b tiny" style="margin-top:1.8cqw">加えて、同時実行リミッタとタイムアウトを併用する</p>
+      <div class="concl"><b>結論</b><span>3つの機構は競合ではなく、障害の継続時間による分担である</span></div>
       <div class="conf">Nutanix Confidential</div><div class="pg">10</div>
     </div>
   </div>
@@ -612,6 +639,7 @@ ul.b li::before{
       <p class="b tiny" style="margin-top:1.6cqw;padding-top:1.4cqw;border-top:2px solid var(--charco)">
         <span class="hl2">コストに対する遮断器が、存在しない</span>
       </p>
+      <div class="concl"><b>結論</b><span>コストに対する遮断器が、既存の設計には存在しない</span></div>
       <div class="conf">Nutanix Confidential</div><div class="pg">11</div>
     </div>
   </div>
@@ -631,6 +659,7 @@ ul.b li::before{
         <div class="cell"><p class="cell-t">変更の重さ</p><p class="cell-d">ポリシー変更に全アプリの再デプロイ</p></div>
         <div class="cell cell--fill"><p class="cell-t" style="margin:auto 0">同じ仕組みを<br>N回実装し、<br>N回維持する</p></div>
       </div>
+      <div class="concl"><b>結論</b><span>同じ仕組みをN回実装しN回維持する構造は、いずれ破綻する</span></div>
       <div class="conf">Nutanix Confidential</div><div class="pg">12</div>
     </div>
   </div>
@@ -665,6 +694,7 @@ ul.b li::before{
           </ul>
         </div>
       </div>
+      <div class="concl"><b>結論</b><span>これは新しい問題ではなく、10年前に解いた問題の再来である</span></div>
       <div class="src">参考：Forbes / Janakiram MSV「Agent Gateways Are Becoming The Control Plane For Enterprise AI」2026年7月5日</div>
       <div class="conf">Nutanix Confidential</div><div class="pg">13</div>
     </div>
@@ -685,6 +715,7 @@ ul.b li::before{
         <div class="cell"><p class="cell-t">計測・監査ログ</p><p class="cell-d">誰が何トークン使ったか</p></div>
         <div class="cell cell--fill2"><p class="cell-t">MCP接続制御</p><p class="cell-d">ツールへの経路の統制</p></div>
       </div>
+      <div class="concl"><b>結論</b><span>信頼性・統制・可観測性は、アプリではなく基盤層の責務である</span></div>
       <div class="conf">Nutanix Confidential</div><div class="pg">14</div>
     </div>
   </div>
@@ -702,6 +733,7 @@ ul.b li::before{
         <li>マルチテナントと部門別のコスト按分に対応できるか</li>
         <li>監査要件を満たすログを出せるか</li>
       </ul>
+      <div class="concl"><b>結論</b><span>セルフホストと外部モデルを同一の統制下に置けるかが分岐点になる</span></div>
       <div class="conf">Nutanix Confidential</div><div class="pg">15</div>
     </div>
   </div>
@@ -752,6 +784,7 @@ ul.b li::before{
           </defs>
         </svg>
       </div>
+      <div class="concl"><b>結論</b><span>NAIが、インフラとエージェントの間に立つ中央コントロールプレーンとなる</span></div>
       <div class="conf">Nutanix Confidential</div><div class="pg">16</div>
     </div>
   </div>
@@ -764,15 +797,11 @@ ul.b li::before{
     <div class="pad">
       <h3 class="h"><span class="lead">統合エンドポイント 1／3</span>単一APIで、すべてのモデルへ</h3>
       <ul class="b">
-        <li>ホステッドモデルとセルフホストモデルを<span class="hl">単一のAPIで</span></li>
-        <li>Azure上のGPT-4、AnthropicのClaude、NAI上のLlama ― すべて同一の経路</li>
-        <li>AWS Bedrock、NVIDIA NIM、Hugging Face、独自モデルにも対応</li>
-        <li><span class="hl2">事前検証済みモデル 74種</span></li>
+        <li>Azure上のGPT-4、AnthropicのClaude、NAI上のLlama<br><span class="hl">― すべて同一のエンドポイントを通る</span></li>
+        <li>Bedrock／NIM／Hugging Face／独自モデル。<span class="hl2">検証済み74種</span></li>
       </ul>
-      <p class="b tiny" style="margin-top:1.4cqw;padding-top:1.2cqw;border-top:2px solid var(--charco)">
-        国内調査ではパブリッククラウド 50%超・専有型 35〜45%（複数回答）。<span class="hl">多くの組織が両方を使う</span>
-      </p>
-      <div class="src">Source: IDC, 2026<br>Note: IDC Japan『2026年 国内AIインフラおよびAI向けITインフラサービス市場動向分析』（Doc #JPJ54233926, March 2026）<br>Note: 「Japan Digital and AI Infrastructure Strategies and Investment Survey 2026」（n=551）を基に作成</div>
+      <div class="concl"><b>結論</b><span>多くの組織は両方を使う。ならば、束ねる層が要る</span></div>
+      <div class="src">配備形態の利用予定：パブリッククラウド 50%超／専有型ITインフラ 35〜45%（複数回答）。Source: IDC, 2026 ｜ IDC Japan『2026年 国内AIインフラおよびAI向けITインフラサービス市場動向分析』（Doc #JPJ54233926, March 2026）、「Japan Digital and AI Infrastructure Strategies and Investment Survey 2026」（n=551）を基に作成</div>
       <div class="conf">Nutanix Confidential</div><div class="pg">17</div>
     </div>
   </div>
@@ -785,13 +814,12 @@ ul.b li::before{
     <div class="pad">
       <h3 class="h"><span class="lead">統合エンドポイント 2／3</span>ロードバランス — 平常時の分散</h3>
       <ul class="b">
-        <li>複数のモデルエンドポイント間で負荷を分散する</li>
-        <li><span class="hl">複数クラスタ・複数のホステッドプロバイダに跨っていても分散可能</span></li>
-        <li><span class="hl2">リモートのNAIクラスタをプロバイダとして登録できる</span></li>
-        <li>インフラ全体に分散したGPUを活用し、スループットのボトルネックを解消</li>
-        <li>単一プロバイダのレート上限に張り付かない設計</li>
+        <li><span class="hl">複数クラスタ・複数プロバイダに跨って負荷を分散する</span></li>
+        <li><span class="hl2">リモートのNAIクラスタもプロバイダとして登録できる</span></li>
+        <li>分散したGPUを活用し、ボトルネックを解消する</li>
       </ul>
-      <div class="src">※ 分散アルゴリズム・重み付けの可否・ヘルスチェック方式は公式ドキュメントで要確認</div>
+      <div class="concl"><b>結論</b><span>平常時のスループットは、分散によって確保する</span></div>
+      <div class="src">※ 分散アルゴリズム・ヘルスチェック方式は公式ドキュメントで要確認</div>
       <div class="conf">Nutanix Confidential</div><div class="pg">18</div>
     </div>
   </div>
@@ -809,7 +837,7 @@ ul.b li::before{
         <li>健全なバックアップのモデルエンドポイントへ自動的にルーティング</li>
         <li><span class="hl2">アプリケーションコードの改修は不要</span></li>
       </ul>
-      <p class="b tiny" style="margin-top:1.6cqw">→ スライド5「単一プロバイダ 99.9%」への直接の回答</p>
+      <div class="concl"><b>結論</b><span>異常時の継続は、退避によって確保する。アプリの改修は不要</span></div>
       <div class="conf">Nutanix Confidential</div><div class="pg">19</div>
     </div>
   </div>
@@ -888,6 +916,7 @@ ul.b li::before{
         <span><span class="key" style="background:#B2F8FF"></span>退避先</span>
         <span>実線＝トラフィックあり ／ 破線＝停止</span>
       </div>
+      <div class="concl"><b>結論</b><span>LBは平常時の分散、フォールバックは異常時の退避。役割が異なる</span></div>
       <div class="conf">Nutanix Confidential</div><div class="pg">20</div>
     </div>
   </div>
@@ -920,6 +949,7 @@ ul.b li::before{
       <p class="b tiny" style="margin-top:1.6cqw;padding-top:1.4cqw;border-top:2px solid var(--charco)">
         スライド11で示した「コストに対する遮断器が存在しない」への回答
       </p>
+      <div class="concl"><b>結論</b><span>エラー率ではなくトークン消費量を監視する遮断器が要る</span></div>
       <div class="conf">Nutanix Confidential</div><div class="pg">21</div>
     </div>
   </div>
@@ -937,6 +967,7 @@ ul.b li::before{
         <li>モデルベンダーを横断してトークン使用量を可視化</li>
         <li>目的は明快 ― <span class="hl2">bill shock を防ぐ</span></li>
       </ul>
+      <div class="concl"><b>結論</b><span>見えない支出は制御できない。まず計測を中央に集める</span></div>
       <div class="conf">Nutanix Confidential</div><div class="pg">22</div>
     </div>
   </div>
@@ -953,7 +984,7 @@ ul.b li::before{
         <div class="cell cell--fill"><p class="cell-n">WHAT</p><p class="cell-t">上限到達時の挙動</p><p class="cell-d">429を返す／キューイングする／下位モデルへ降格する</p></div>
         <div class="cell"><p class="cell-n">HOW MUCH</p><p class="cell-t">閾値の設計</p><p class="cell-d">ハードリミットか、警告閾値を別に設けるか</p></div>
       </div>
-      <p class="b tiny" style="margin-top:1.8cqw">「遮断」と「降格」のどちらを選ぶかは、業務要件次第</p>
+      <div class="concl"><b>結論</b><span>遮断か降格かは、技術ではなく業務要件が決める</span></div>
       <div class="conf">Nutanix Confidential</div><div class="pg">23</div>
     </div>
   </div>
@@ -969,8 +1000,8 @@ ul.b li::before{
         <li><span class="hl">APIキーごとに、アクセスできるツールを定義する</span></li>
         <li>Tool-Level Filtering ― ツール単位で Read Only / Write を制御</li>
         <li>個々のMCPサーバーではなく、<span class="hl2">ゲートウェイ側でAPIキーを注入</span></li>
-        <li>レイテンシと呼び出されたツール名を含む全リクエストを記録</li>
       </ul>
+      <div class="concl"><b>結論</b><span>エージェントに認証情報を持たせず、ツール単位で権限を絞る</span></div>
       <div class="src">※ MCPサーバーガバナンスおよび同梱テストエージェントは Tech Preview であり、本番利用は想定されていません</div>
       <div class="conf">Nutanix Confidential</div><div class="pg">24</div>
     </div>
@@ -991,6 +1022,7 @@ ul.b li::before{
         <tr><td>データ主権</td><td>MCP接続制御（Tech Preview）</td></tr>
       </table>
       <p class="b tiny" style="margin-top:1.4cqw">実行環境：任意のCNCF準拠Kubernetes ／ オンプレミス・エッジ・NEO Cloud・パブリッククラウド</p>
+      <div class="concl"><b>結論</b><span>4要件はすべて、アプリを改修せず基盤層で充足できる</span></div>
       <div class="conf">Nutanix Confidential</div><div class="pg">25</div>
     </div>
   </div>
@@ -1006,11 +1038,11 @@ ul.b li::before{
     <div class="pad">
       <h3 class="h">セマンティックルーティング</h3>
       <ul class="b">
-        <li>ここまでは、どのモデルを呼ぶかを<em>アプリが指定する</em>前提だった</li>
-        <li>リクエストの<span class="hl2">意味内容・複雑性・意図</span>に基づき、モデルを動的に選択</li>
+        <li>ここまでは、呼ぶモデルを<em>アプリが指定する</em>前提だった</li>
+        <li>リクエストの<span class="hl2">意味内容・複雑性・意図</span>に基づき動的に選択する</li>
         <li>単純な要求は小型モデルへ、困難な要求は高性能モデルへ</li>
-        <li><span class="hl">判定をGateway層に置けば、全アプリへ一貫したポリシーが自動適用される</span></li>
       </ul>
+      <div class="concl"><b>結論</b><span>モデル選択をアプリから基盤へ移すことが、次の一手になる</span></div>
       <div class="src">※ 本機能はロードマップです。提供時期・仕様は未確定です</div>
       <div class="conf">Nutanix Confidential</div><div class="pg">26</div>
     </div>
@@ -1029,6 +1061,7 @@ ul.b li::before{
         <li>相当割合の要求を小型モデルへ振り分けても品質を維持しうる</li>
         <li>ルーティングポリシーは一度定義すればよい</li>
       </ul>
+      <div class="concl"><b>結論</b><span>コスト・品質・レイテンシは、トレードオフではなく同時に最適化できる</span></div>
       <div class="src">※ 本機能はロードマップです。提供時期・仕様は未確定です</div>
       <div class="conf">Nutanix Confidential</div><div class="pg">27</div>
     </div>
@@ -1095,6 +1128,7 @@ ul.b li::before{
           </defs>
         </svg>
       </div>
+      <div class="concl"><b>結論</b><span>アプリが知るべきエンドポイントは、最後まで1つである</span></div>
       <div class="conf">Nutanix Confidential</div><div class="pg">28</div>
     </div>
   </div>
@@ -1114,6 +1148,7 @@ ul.b li::before{
         <div class="tl-i"><div class="tl-n">5</div><div class="tl-b"><p class="tl-t">統制</p><p class="tl-d">MCP接続制御を適用する</p></div></div>
       </div>
       <p class="b tiny" style="margin-top:1.6cqw"><span class="hl">Step 1 を可観測性の確保のみに限定することが、導入判断の障壁を下げる</span></p>
+      <div class="concl"><b>結論</b><span>まず可視化だけを行う。それが最も確実な第一歩になる</span></div>
       <div class="conf">Nutanix Confidential</div><div class="pg">29</div>
     </div>
   </div>
@@ -1130,10 +1165,10 @@ ul.b li::before{
       <h3 class="h">まとめ</h3>
       <ul class="b">
         <li>本番AI基盤の要件は<em>可用性・コスト予測可能性・データ主権・移植性</em></li>
-        <li>これらを充足すべき層は<span class="hl">アプリケーションではなく Gateway</span></li>
-        <li>アプリケーションを改修せず、基盤層で充足できる</li>
+        <li>充足すべき層は<span class="hl">アプリケーションではなく Gateway</span></li>
         <li>次の一手はセマンティックルーティング（ロードマップ）</li>
       </ul>
+      <div class="concl"><b>結論</b><span>止まらないことは、努力目標ではなく設計で満たす前提条件である</span></div>
       <div class="conf">Nutanix Confidential</div><div class="pg">30</div>
     </div>
   </div>
