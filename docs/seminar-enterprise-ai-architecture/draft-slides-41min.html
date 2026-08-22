@@ -296,7 +296,7 @@ ul.b li::before{
 <header class="masthead">
   <p class="eyebrow">.NEXT On Tour Tokyo 2026 ／ 講演資料ドラフト</p>
   <h1>「AIが止まれば業務が止まる」時代へ<br>― 本番業務で使えるエンタープライズAIのアーキテクチャ</h1>
-  <p class="sub">全31枚（固定3枚＋本編28枚）／ 35分・Q&amp;A別枠5分 ／ 想定視聴者 IT Pro・Developer。支給テンプレート NEXT_2026_PPT_Template.pptx の記載ルールに準拠したドラフトです。</p>
+  <p class="sub">全41枚（固定3枚＋本編38枚）／ 41分・Q&amp;A別枠5分 ／ 想定視聴者 IT Pro・Developer。支給テンプレート NEXT_2026_PPT_Template.pptx の記載ルールに準拠したドラフトです。</p>
 </header>
 
 <dl class="spec">
@@ -335,7 +335,7 @@ ul.b li::before{
   <p><strong>色は赤・緑を一切使用していません。</strong> 状態の区別（正常／異常、遮断／通過）は配色ではなく、線種・塗り・位置・ラベルで表現しています（テンプレート規程 2.4 のカラーユニバーサルデザイン要件）。</p>
   <p><strong>数値の出典は登壇前に一次情報での確認が必要です。</strong> 信頼度の低い二次情報に由来する数値はスライドに載せず、構造の説明に置き換えてあります（規程 2.5）。</p>
   <p><strong>IDCレポートの引用について。</strong> IDC Japan『2026年 国内AIインフラおよびAI向けITインフラサービス市場動向分析：推論が主導する競争軸の転換』（Doc #JPJ54233926, March 2026）を4枚で引用しています。<strong>IDCの図版は転載せず、Table 3 の数値から自作のグラフを作成</strong>し、出典表記は同レポートの書式（Source: IDC, 2026 ／ 調査名と n 数を Note に併記）に準拠しました。<strong>購入は通常「社内利用」の許諾であり、社外公開のプレゼンテーションでの引用・図表利用にはIDCの個別許諾が必要になる場合があります。登壇前にIDCへの確認をお願いします。</strong></p>
-  <p><strong>2026年8月21日、情報源を nutanix.com / next.nutanix.com に限定して再調査しました。</strong> その結果 <strong>3件の誤りを訂正</strong>しています ― ①フォールバックのトリガーに「予算超過」は含まれない（障害とレート制限到達の2つ） ②AI Gateway → Agent Gateway は発展ではなく<strong>改名</strong> ③<strong>セマンティックルーティングは公式サイトに存在しない</strong>（スライド26の注記を参照）。あわせて Distributed Scalability、Model Security Scanning など未計上だった機能を反映しました。</p>
+  <p><strong>2026年8月21日、情報源を nutanix.com / next.nutanix.com に限定して再調査しました。</strong> その結果 <strong>3件の誤りを訂正</strong>しています ― ①フォールバックのトリガーに「予算超過」は含まれない（障害とレート制限到達の2つ） ②AI Gateway → Agent Gateway は発展ではなく<strong>改名</strong> ③<strong>セマンティックルーティングは公式サイトに存在しない</strong>（スライド35の注記を参照）。あわせて Distributed Scalability、Model Security Scanning など未計上だった機能を反映しました。</p>
 </div>
 
 <!-- ══════════ 固定・オープニング ══════════ -->
@@ -383,17 +383,47 @@ ul.b li::before{
       <div class="conf">Nutanix Confidential</div><div class="pg">3</div>
     </div>
   </div>
-  <p class="note">冒頭で地図を渡し、<b>スライド25で同じ表を再掲して回収する</b>。この対応関係が本セッションの骨格。</p>
+  <p class="note">冒頭で地図を渡し、<b>スライド33で同じ表を再掲して回収する</b>。この対応関係が本セッションの骨格。</p>
 </article>
 
 <!-- ══════════ 第1章 ══════════ -->
-<div class="chapter"><h2>第1章　AI基盤における可用性要件の再定義</h2><span class="budget">3分 ／ 3枚</span></div>
+<div class="chapter"><h2>第1章　AI基盤における可用性要件の再定義</h2><span class="budget">5分 ／ 5枚</span></div>
 
 <article class="card">
-  <div class="meta"><span class="num">04</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-fact">事実</span></div>
+  <div class="meta"><span class="num">04</span><span class="layout">Title and Comparison</span><span class="badge b-fact">事実</span></div>
   <div class="slide">
     <div class="pad">
-      <h3 class="h"><span class="lead">補助ツールから、業務プロセスの構成要素へ</span>2027年、推論が学習を上回る</h3>
+      <h3 class="h">AIへの依存の質が変わった</h3>
+      <div class="cols">
+        <div>
+          <p class="col-h">これまで</p>
+          <ul class="b small">
+            <li>補助的なツール</li>
+            <li>停止しても業務は継続可能</li>
+            <li>可用性は「あると望ましい」</li>
+          </ul>
+        </div>
+        <div class="col--alt">
+          <p class="col-h">現在</p>
+          <ul class="b small">
+            <li>業務プロセスの構成要素</li>
+            <li><span class="hl">停止が業務停止に直結</span></li>
+            <li>可用性は設計の前提条件</li>
+          </ul>
+        </div>
+      </div>
+      <div class="src">出所：Gartner「Gartner Predicts 40% of Enterprise Apps Will Feature Task-Specific AI Agents by 2026」2025年8月26日<br>2026年末までにエンタープライズアプリの40％がタスク特化AIエージェントを搭載（2025年は5％未満）</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">4</div>
+    </div>
+  </div>
+  <p class="note">Gartner は一次情報なのでそのまま引用可。<b>出典はスライド左下に10pt で明記</b>（規程 2.5）。</p>
+</article>
+
+<article class="card">
+  <div class="meta"><span class="num">05</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-fact">事実</span></div>
+  <div class="slide">
+    <div class="pad">
+      <h3 class="h">国内市場は転換点にある ― 2027年、推論が学習を上回る</h3>
       <div class="dg" style="padding-top:0">
         <svg viewBox="0 0 900 250" role="img" aria-label="国内AIサーバー市場の学習向けと推論向けの支出額推移。2027年に推論向けが学習向けを上回る">
           <line x1="72" y1="196" x2="872" y2="196" stroke="#131313" stroke-width="1.5"/>
@@ -435,48 +465,55 @@ ul.b li::before{
           <text x="828" y="95" font-size="13">学習</text>
         </svg>
       </div>
-      <p class="b tiny" style="margin-top:.6cqw">学習は2026年がピーク（CAGR 0.3%）／ 推論は<span class="hl">CAGR 13.6%</span>で 2030年 5,528億円へ。<span class="hl2">「作る」から「使い続ける」フェーズへ</span></p>
+      <p class="b tiny" style="margin-top:.6cqw">学習は2026年がピーク（CAGR 0.3%）／ 推論は<span class="hl">CAGR 13.6%</span>で 2030年 5,528億円へ</p>
       <div class="src">Source: IDC, 2026<br>Note: IDC Japan『2026年 国内AIインフラおよびAI向けITインフラサービス市場動向分析：推論が主導する競争軸の転換』（Doc #JPJ54233926, March 2026）の Table 3 を基に作成</div>
-      <div class="conf">Nutanix Confidential</div><div class="pg">4</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">5</div>
     </div>
   </div>
   <p class="note">IDCレポートの主題そのもの。<b>「作る」から「使い続ける」フェーズへの転換</b>を国内データで示す。グラフはIDCの図版を転載せず、<b>Table 3 の数値から自作</b>している（出典表記はIDC書式に準拠）。日本の聴衆にはGartnerより効く。</p>
 </article>
 
 <article class="card">
-  <div class="meta"><span class="num">05</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-fact">事実</span></div>
+  <div class="meta"><span class="num">06</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-fact">事実</span></div>
   <div class="slide">
     <div class="pad">
-      <h3 class="h">約束される水準と、実際に起きたこと</h3>
-      <div class="cols">
-        <div>
-          <p class="col-h">提供されるSLA</p>
-          <ul class="b small">
-            <li>OpenAI Scale Tier ／ 99.9%</li>
-            <li>Anthropic Priority Tier ／ 99.5%目標</li>
-            <li>Azure OpenAI ／ 99.9%</li>
-            <li><span class="hl">99.9% ＝ 年間 約8.76時間</span></li>
-          </ul>
-        </div>
-        <div class="col--alt">
-          <p class="col-h">実際の障害 ／ Azure OpenAI</p>
-          <ul class="b small">
-            <li>2026年5月29日 09:39–17:05 UTC</li>
-            <li><span class="hl">1回で約7時間26分</span></li>
-            <li>レイテンシ増大・タイムアウト・5XX</li>
-            <li><span class="hl2">引き金は内部リトライの急増</span></li>
-          </ul>
-        </div>
-      </div>
-      <div class="src">出所：Microsoft Azure「Azure status history」（Tracking ID 参照）／ OpenAI Help Center、各社公開ドキュメント。年間停止時間は 8,760時間 × 0.1% として算出（自社計算）</div>
-      <div class="conf">Nutanix Confidential</div><div class="pg">5</div>
+      <h3 class="h">実際に、7時間半止まっている</h3>
+      <ul class="b">
+        <li>Azure OpenAI Service ／ 2026年5月29日</li>
+        <li>09:39–17:05 UTC（<span class="hl">約7時間26分</span>）</li>
+        <li>レイテンシ増大・断続的な失敗・タイムアウト・5XX</li>
+        <li>欧州と Australia East で影響が顕著</li>
+        <li><span class="hl2">引き金は上流変更による内部リトライトラフィックの急増</span></li>
+      </ul>
+      <div class="src">出所：Microsoft Azure「Azure status history」（Tracking ID 参照）</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">6</div>
     </div>
   </div>
   <p class="note"><b>最下段が第3章・第5章への伏線。</b>「リトライが障害を増幅した」という一次情報は、リトライ設計とトークン遮断の両方で効く。5行。</p>
 </article>
 
 <article class="card">
-  <div class="meta"><span class="num">06</span><span class="layout">Grid_Six Items</span><span class="badge b-op">提言</span></div>
+  <div class="meta"><span class="num">07</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-fact">事実＋計算</span></div>
+  <div class="slide">
+    <div class="pad">
+      <h3 class="h">提供されるSLAの水準と、基幹業務のSLO</h3>
+      <ul class="b">
+        <li>OpenAI Scale Tier ／ 99.9%（オプション階層）</li>
+        <li>Anthropic Priority Tier ／ 99.5% 稼働目標</li>
+        <li>Azure OpenAI ／ 99.9%</li>
+      </ul>
+      <p class="b" style="margin-top:2.4cqw;padding-top:1.8cqw;border-top:2px solid var(--charco)">
+        <span class="hl">99.9% ＝ 年間 約8.76時間の停止を許容</span>
+      </p>
+      <div class="src">出所：OpenAI Help Center、各社公開ドキュメント。年間停止時間は 8,760時間 × 0.1% として算出（自社計算）</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">7</div>
+    </div>
+  </div>
+  <p class="note">年間時間は<b>自分で計算した値なので安全に提示できる</b>。前スライドの実測7.5時間と重ねると、単一プロバイダ構成のリスクが計算ではなく実績で示せる。</p>
+</article>
+
+<article class="card">
+  <div class="meta"><span class="num">08</span><span class="layout">Grid_Six Items</span><span class="badge b-op">提言</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h">可用性の毀損は、サービス停止に限らない</h3>
@@ -488,17 +525,17 @@ ul.b li::before{
         <div class="cell"><p class="cell-n">05</p><p class="cell-t">リージョン障害</p><p class="cell-d">地域単位での影響</p></div>
         <div class="cell cell--fill"><p class="cell-t" style="margin:auto 0">アプリから見れば<br>5類型すべてが<br>等価な「処理不能」</p></div>
       </div>
-      <div class="conf">Nutanix Confidential</div><div class="pg">6</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">8</div>
     </div>
   </div>
   <p class="note">6枠目を結論に充てて、グリッドが単なる列挙で終わらないようにしている。</p>
 </article>
 
 <!-- ══════════ 第2章 ══════════ -->
-<div class="chapter"><h2>第2章　本番AI基盤に求められる非機能要件</h2><span class="budget">3分 ／ 3枚</span></div>
+<div class="chapter"><h2>第2章　本番AI基盤に求められる非機能要件</h2><span class="budget">4分 ／ 4枚</span></div>
 
 <article class="card">
-  <div class="meta"><span class="num">07</span><span class="layout">Title and Content 2x2</span><span class="badge b-op">提言</span></div>
+  <div class="meta"><span class="num">09</span><span class="layout">Title and Content 2x2</span><span class="badge b-op">提言</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h">本番AI基盤に求められる4つの非機能要件</h3>
@@ -510,14 +547,14 @@ ul.b li::before{
       </div>
       <p class="b tiny" style="margin-top:1.4cqw"><span class="hl">4要件はいずれも、国内のAIインフラ意思決定者調査で上位に現れる</span></p>
       <div class="src">Source: IDC, 2026<br>Note: IDC Japan『2026年 国内AIインフラおよびAI向けITインフラサービス市場動向分析』（Doc #JPJ54233926, March 2026）<br>Note: 「Japan Digital and AI Infrastructure Strategies and Investment Survey 2026」（n=551）および「Japan AI Technology Strategy and Adoption Survey 2026」（n=1,250）を基に作成</div>
-      <div class="conf">Nutanix Confidential</div><div class="pg">7</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">9</div>
     </div>
   </div>
   <p class="note">4要件＝2×2 に最適。<b>4語をすべて「〜性」で揃えている</b>ので要件一覧としての体裁が保たれる。<br><b>IDC調査の裏付けを併記した。</b>コスト予測可能性＝サービスへの期待の第1位、可用性＝第2位（安定したパフォーマンス）、データ主権＝ソブリンAI推進目的の第1位、移植性＝本格活用層が求める「柔軟な組み合わせ」。これで4要件が私見ではなく<b>国内調査に基づく整理</b>になる。</p>
 </article>
 
 <article class="card">
-  <div class="meta"><span class="num">08</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-op">提言</span></div>
+  <div class="meta"><span class="num">10</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-op">提言</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h"><span class="lead">コスト予測可能性</span>不確実性は二重である</h3>
@@ -540,14 +577,14 @@ ul.b li::before{
         </div>
       </div>
       <div class="src">Source: IDC, 2026<br>Note: IDC Japan『2026年 国内AIインフラおよびAI向けITインフラサービス市場動向分析』（Doc #JPJ54233926, March 2026）<br>Note: 「Japan AI Technology Strategy and Adoption Survey 2026」（n=1,250）を基に作成。産業分野別では金融・流通／サービスが為替リスクを特に重視</div>
-      <div class="conf">Nutanix Confidential</div><div class="pg">8</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">10</div>
     </div>
   </div>
   <p class="note"><b>IDCの発見を反映して二重構造に改訂した。</b>為替は現構成に欠けていた視点で、<b>日本の聴衆に最も具体的に響く論点</b>。IDCではソブリンAI推進目的の第2位（地政学リスクより上位）。業種別では<b>金融と流通／サービスが特に重視</b>するので、聴衆構成が分かれば口頭で語り分けられる。<br>倍率の具体数値は引き続き載せていない（出典が二次情報のため）。</p>
 </article>
 
 <article class="card">
-  <div class="meta"><span class="num">09</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-fact">事実＋提言</span></div>
+  <div class="meta"><span class="num">11</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-fact">事実＋提言</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h"><span class="lead">データ主権</span>統制対象は、モデルだけではない</h3>
@@ -558,19 +595,35 @@ ul.b li::before{
         <li>モデルへの経路だけを統制しても、統制は完成しない</li>
       </ul>
       <div class="src">Source: IDC, 2026<br>Note: IDC Japan『2026年 国内AIインフラおよびAI向けITインフラサービス市場動向分析』（Doc #JPJ54233926, March 2026）<br>Note: ソブリンAI推進目的の第1位は「データ主権の確保」。「Japan AI Technology Strategy and Adoption Survey 2026」（n=1,250）を基に作成</div>
-      <div class="conf">Nutanix Confidential</div><div class="pg">9</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">11</div>
     </div>
   </div>
-  <p class="note">3行目が<b>MCP接続制御（スライド24）への伏線</b>。ここで「統制対象はモデルに限らない」と述べておくと、後半でMCPが唐突に見えない。</p>
+  <p class="note">3行目が<b>MCP接続制御（スライド32）への伏線</b>。ここで「統制対象はモデルに限らない」と述べておくと、後半でMCPが唐突に見えない。</p>
 </article>
 
-
+<article class="card">
+  <div class="meta"><span class="num">12</span><span class="layout">Title and Content 2x2</span><span class="badge b-op">提言</span></div>
+  <div class="slide">
+    <div class="pad">
+      <h3 class="h"><span class="lead">移植性</span>ロックインは4つの層で同時に効く</h3>
+      <div class="grid4">
+        <div class="cell"><p class="cell-t">モデル層</p><p class="cell-d">プロンプトと出力特性がそのモデルに最適化される</p></div>
+        <div class="cell"><p class="cell-t">データ層</p><p class="cell-d">埋め込み・インデックスの形式が固定される</p></div>
+        <div class="cell"><p class="cell-t">API層</p><p class="cell-d">SDKと呼び出し規約がアプリに埋め込まれる</p></div>
+        <div class="cell cell--fill"><p class="cell-t">インフラ層</p><p class="cell-d">実行環境と課金がプロバイダに紐づく</p></div>
+      </div>
+      <p class="b tiny" style="margin-top:1.8cqw">単一プロバイダへの集約は、この4層を一括で固定することを意味する</p>
+      <div class="conf">Nutanix Confidential</div><div class="pg">12</div>
+    </div>
+  </div>
+  <p class="note">4層を並置してから結論を1行で置く。</p>
+</article>
 
 <!-- ══════════ 第3章 ══════════ -->
-<div class="chapter"><h2>第3章　アプリケーション層で実装した場合の限界</h2><span class="budget">3分 ／ 3枚</span></div>
+<div class="chapter"><h2>第3章　アプリケーション層で実装した場合の限界</h2><span class="budget">5分 ／ 5枚</span></div>
 
 <article class="card">
-  <div class="meta"><span class="num">10</span><span class="layout">Three Key Points</span><span class="badge b-fact">事実</span></div>
+  <div class="meta"><span class="num">13</span><span class="layout">Three Key Points</span><span class="badge b-fact">事実</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h">信頼性設計の定石 — 障害の継続時間で担当が変わる</h3>
@@ -580,14 +633,14 @@ ul.b li::before{
         <div class="cell"><p class="cell-n">数分〜数時間</p><p class="cell-t">フォールバック</p><p class="cell-d">長期障害。別の供給元へ退避する</p></div>
       </div>
       <p class="b tiny" style="margin-top:1.8cqw">加えて、同時実行リミッタとタイムアウトを併用する</p>
-      <div class="conf">Nutanix Confidential</div><div class="pg">10</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">13</div>
     </div>
   </div>
   <p class="note">時間スケールを見出しに置くことで、3機構が競合ではなく分担であることが一目で伝わる。</p>
 </article>
 
 <article class="card">
-  <div class="meta"><span class="num">11</span><span class="layout">Title and Comparison</span><span class="badge b-op">提言</span><span class="badge b-key">構成上の要</span></div>
+  <div class="meta"><span class="num">14</span><span class="layout">Title and Comparison</span><span class="badge b-op">提言</span><span class="badge b-key">構成上の要</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h">サーキットブレーカーは「障害」にしか反応しない</h3>
@@ -612,17 +665,35 @@ ul.b li::before{
       <p class="b tiny" style="margin-top:1.6cqw;padding-top:1.4cqw;border-top:2px solid var(--charco)">
         <span class="hl2">コストに対する遮断器が、存在しない</span>
       </p>
-      <div class="conf">Nutanix Confidential</div><div class="pg">11</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">14</div>
     </div>
   </div>
-  <p class="note"><b>このセッションの構造上の要。</b>ここで「欠落」を可視化しておくことで、スライド21のトークンレートリミットが新機能紹介ではなく<b>既知の欠落に対する充足</b>として受け取られる。この伏線がないと訴求力を失う。</p>
+  <p class="note"><b>このセッションの構造上の要。</b>ここで「欠落」を可視化しておくことで、スライド29のトークンレートリミットが新機能紹介ではなく<b>既知の欠落に対する充足</b>として受け取られる。この伏線がないと訴求力を失う。</p>
 </article>
 
 <article class="card">
-  <div class="meta"><span class="num">12</span><span class="layout">Grid_Six Items</span><span class="badge b-op">提言</span></div>
+  <div class="meta"><span class="num">15</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-fact">事実</span></div>
   <div class="slide">
     <div class="pad">
-      <h3 class="h">個別実装の限界と、その帰結</h3>
+      <h3 class="h">タイムアウトは2階層で設ける</h3>
+      <ul class="b">
+        <li><em>ステップ単位</em> ― 個々のLLM呼び出しに上限時間を設ける</li>
+        <li><em>セッション単位</em> ― 1タスク全体の経過時間に上限を設ける</li>
+      </ul>
+      <p class="b" style="margin-top:2.4cqw;padding-top:1.8cqw;border-top:2px solid var(--charco)">
+        <span class="hl">エージェントのループは、セッション単位でしか停止できない</span>
+      </p>
+      <div class="conf">Nutanix Confidential</div><div class="pg">15</div>
+    </div>
+  </div>
+  <p class="note">Developer が実装で必ず踏む論点。3行と余白で、結論を強く見せる。</p>
+</article>
+
+<article class="card">
+  <div class="meta"><span class="num">16</span><span class="layout">Grid_Six Items</span><span class="badge b-op">提言</span></div>
+  <div class="slide">
+    <div class="pad">
+      <h3 class="h">これを全アプリケーションに個別実装すると</h3>
       <div class="grid5">
         <div class="cell"><p class="cell-t">組合せ爆発</p><p class="cell-d">N アプリ × M プロバイダ</p></div>
         <div class="cell"><p class="cell-t">SDK差異の吸収</p><p class="cell-d">プロバイダごとの作法を各所で吸収</p></div>
@@ -631,19 +702,36 @@ ul.b li::before{
         <div class="cell"><p class="cell-t">変更の重さ</p><p class="cell-d">ポリシー変更に全アプリの再デプロイ</p></div>
         <div class="cell cell--fill"><p class="cell-t" style="margin:auto 0">同じ仕組みを<br>N回実装し、<br>N回維持する</p></div>
       </div>
-      <div class="conf">Nutanix Confidential</div><div class="pg">12</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">16</div>
     </div>
   </div>
   <p class="note">Developer の実感に最も接続するスライド。ここで共感を取ってから次の結論へ渡す。</p>
 </article>
 
-
+<article class="card">
+  <div class="meta"><span class="num">17</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-op">提言</span></div>
+  <div class="slide">
+    <div class="pad">
+      <h3 class="h">結論 — 横断レイヤへ責務を分離する</h3>
+      <ul class="b">
+        <li>アプリケーションが知るべきは<span class="hl">単一のエンドポイントのみ</span></li>
+        <li>信頼性・ガバナンス・可観測性は基盤層の責務とする</li>
+        <li>ポリシーは一度定義し、全トラフィックへ一貫適用する</li>
+      </ul>
+      <p class="b" style="margin-top:2.2cqw;padding-top:1.6cqw;border-top:2px solid var(--charco);font-weight:700">
+        → AI Gateway
+      </p>
+      <div class="conf">Nutanix Confidential</div><div class="pg">17</div>
+    </div>
+  </div>
+  <p class="note">第4章以降を「製品紹介」ではなく「アーキテクチャの必然」として受け取らせる橋渡し。</p>
+</article>
 
 <!-- ══════════ 第4章 ══════════ -->
-<div class="chapter"><h2>第4章　AI Gateway というアーキテクチャ</h2><span class="budget">3分 ／ 3枚</span></div>
+<div class="chapter"><h2>第4章　AI Gateway というアーキテクチャ</h2><span class="budget">4分 ／ 5枚</span></div>
 
 <article class="card">
-  <div class="meta"><span class="num">13</span><span class="layout">Title and Comparison</span><span class="badge b-op">提言</span></div>
+  <div class="meta"><span class="num">18</span><span class="layout">Title and Comparison</span><span class="badge b-op">提言</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h">既視感のある話 — API Gateway が通った道</h3>
@@ -666,14 +754,14 @@ ul.b li::before{
         </div>
       </div>
       <div class="src">参考：Forbes / Janakiram MSV「Agent Gateways Are Becoming The Control Plane For Enterprise AI」2026年7月5日</div>
-      <div class="conf">Nutanix Confidential</div><div class="pg">13</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">18</div>
     </div>
   </div>
   <p class="note"><b>本セッション最大の説得装置。</b>IT Pro は API Gateway の導入経緯を体で知っているため、Agent Gateway を「新しい何か」ではなく「知っているパターンのAI版」として一瞬で受け取れる。</p>
 </article>
 
 <article class="card">
-  <div class="meta"><span class="num">14</span><span class="layout">Grid_Six Items</span><span class="badge b-op">提言</span></div>
+  <div class="meta"><span class="num">19</span><span class="layout">Grid_Six Items</span><span class="badge b-op">提言</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h">Gateway が引き受ける責務</h3>
@@ -685,14 +773,111 @@ ul.b li::before{
         <div class="cell"><p class="cell-t">計測・監査ログ</p><p class="cell-d">誰が何トークン使ったか</p></div>
         <div class="cell cell--fill2"><p class="cell-t">MCP接続制御</p><p class="cell-d">ツールへの経路の統制</p></div>
       </div>
-      <div class="conf">Nutanix Confidential</div><div class="pg">14</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">19</div>
     </div>
   </div>
   <p class="note"><b>着色した4枠が第5章で扱う機能。</b>ここで一般的責務として先に定義しておくことで、第5章が固有機能の紹介ではなく責務への実装として読める。</p>
 </article>
 
 <article class="card">
-  <div class="meta"><span class="num">15</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-op">提言</span></div>
+  <div class="meta"><span class="num">20</span><span class="layout">白紙 ／ アーキテクチャ図規程 2.8 適用</span><span class="badge b-fix">図</span></div>
+  <div class="slide">
+    <div class="pad">
+      <h3 class="h">Gateway の位置づけ</h3>
+      <div class="dg">
+        <svg viewBox="0 0 1000 380" role="img" aria-label="アプリケーションとエージェントが Gateway を経由して、外部プロバイダ、セルフホスト推論、MCPサーバー群へ接続する構成図">
+          <!-- consumers -->
+          <rect x="8" y="112" width="182" height="156" fill="#D7D7D7"/>
+          <text x="18" y="132" font-size="15" font-weight="600">利用側</text>
+          <rect x="26" y="146" width="146" height="46" fill="#FFF" stroke="#131313" stroke-width="1.5"/>
+          <text x="99" y="174" font-size="15" text-anchor="middle">業務アプリケーション</text>
+          <rect x="26" y="204" width="146" height="46" fill="#FFF" stroke="#131313" stroke-width="1.5"/>
+          <text x="99" y="232" font-size="15" text-anchor="middle">AIエージェント</text>
+
+          <!-- arrow in -->
+          <line x1="190" y1="190" x2="286" y2="190" stroke="#131313" stroke-width="2.5" marker-end="url(#ah)"/>
+          <text x="238" y="180" font-size="13" font-style="italic" text-anchor="middle">単一API</text>
+
+          <!-- gateway -->
+          <rect x="288" y="86" width="196" height="208" fill="#C6BEFE" stroke="#131313" stroke-width="2"/>
+          <text x="386" y="118" font-size="17" font-weight="700" text-anchor="middle">Agent Gateway</text>
+          <rect x="304" y="132" width="164" height="34" fill="#FFF" stroke="#131313" stroke-width="1.5"/>
+          <text x="386" y="154" font-size="13" text-anchor="middle">認証・認可</text>
+          <rect x="304" y="172" width="164" height="34" fill="#FFF" stroke="#131313" stroke-width="1.5"/>
+          <text x="386" y="194" font-size="13" text-anchor="middle">LB・フォールバック</text>
+          <rect x="304" y="212" width="164" height="34" fill="#FFF" stroke="#131313" stroke-width="1.5"/>
+          <text x="386" y="234" font-size="13" text-anchor="middle">レート制限・計測</text>
+
+          <!-- three fanned arrows -->
+          <path d="M484 130 H556 V70 H612" fill="none" stroke="#131313" stroke-width="2.5" marker-end="url(#ah)"/>
+          <path d="M484 190 H612" fill="none" stroke="#131313" stroke-width="2.5" marker-end="url(#ah)"/>
+          <path d="M484 250 H556 V312 H612" fill="none" stroke="#131313" stroke-width="2.5" marker-end="url(#ah)"/>
+
+          <!-- targets -->
+          <rect x="614" y="34" width="330" height="72" fill="#B2F8FF" stroke="#131313" stroke-width="1.5"/>
+          <text x="628" y="56" font-size="14" font-weight="600">外部プロバイダ</text>
+          <text x="628" y="80" font-size="12">OpenAI / Anthropic / Gemini /</text>
+          <text x="628" y="96" font-size="12">Azure OpenAI / Bedrock ほか</text>
+
+          <rect x="614" y="154" width="330" height="72" fill="#B2F8FF" stroke="#131313" stroke-width="1.5"/>
+          <text x="628" y="176" font-size="14" font-weight="600">セルフホスト推論</text>
+          <text x="628" y="200" font-size="12">NAI 上のモデル（vLLM / NVIDIA NIM）</text>
+          <line x1="628" y1="212" x2="930" y2="212" stroke="#131313" stroke-width="1"/>
+          <line x1="628" y1="216" x2="930" y2="216" stroke="#131313" stroke-width="1"/>
+
+          <rect x="614" y="276" width="330" height="72" fill="#B2F8FF" stroke="#131313" stroke-width="1.5"/>
+          <text x="628" y="298" font-size="14" font-weight="600">MCPサーバー群</text>
+          <text x="628" y="322" font-size="12">業務ツール・内部データソース</text>
+          <line x1="628" y1="334" x2="930" y2="334" stroke="#131313" stroke-width="1"/>
+          <line x1="628" y1="338" x2="930" y2="338" stroke="#131313" stroke-width="1"/>
+
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 L10 5 L0 10 z" fill="#131313"/>
+            </marker>
+          </defs>
+        </svg>
+      </div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">20</div>
+    </div>
+  </div>
+  <p class="note">規程2.8準拠：<b>アイコンを一切使用せず</b>シェイプとテキストのみ。矢印は直角優先・1.5〜2.5pt・チャコール。複数インスタンスは下二重線で集約表現。ラベルは斜体。</p>
+</article>
+
+<article class="card">
+  <div class="meta"><span class="num">21</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-fact">事実</span></div>
+  <div class="slide">
+    <div class="pad">
+      <h3 class="h">市場における一般解</h3>
+      <div class="cols">
+        <div>
+          <p class="col-h">汎用 AI Gateway</p>
+          <ul class="b tiny">
+            <li>LiteLLM ― 自前運用の定番</li>
+            <li>Portkey ― マネージド</li>
+            <li>Kong AI Gateway ― 既存API管理の延長</li>
+            <li>Envoy AI Gateway ― OSS標準</li>
+          </ul>
+        </div>
+        <div class="col--alt">
+          <p class="col-h">Agent Gateway という新カテゴリ</p>
+          <ul class="b tiny">
+            <li>Nutanix</li>
+            <li>Palo Alto Networks</li>
+            <li>AWS</li>
+            <li>Snowflake（Cortex AI Gateway）</li>
+          </ul>
+        </div>
+      </div>
+      <p class="b tiny" style="margin-top:1.4cqw">OpenAI互換APIがデファクトとなり、抽象化が現実的になった</p>
+      <div class="conf">Nutanix Confidential</div><div class="pg">21</div>
+    </div>
+  </div>
+  <p class="note">あえて競合に触れることで中立性と技術的信頼を得る。<b>触れずに進めると「知らないのか、隠しているのか」と受け取られる。</b></p>
+</article>
+
+<article class="card">
+  <div class="meta"><span class="num">22</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-op">提言</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h">エンタープライズ要件では、まだ足りない</h3>
@@ -702,20 +887,20 @@ ul.b li::before{
         <li>マルチテナントと部門別のコスト按分に対応できるか</li>
         <li>監査要件を満たすログを出せるか</li>
       </ul>
-      <div class="conf">Nutanix Confidential</div><div class="pg">15</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">22</div>
     </div>
   </div>
   <p class="note">この4点が次章の評価軸になる。</p>
 </article>
 
 <!-- ══════════ 第5章 ══════════ -->
-<div class="chapter"><h2>第5章　Nutanix Agent Gateway による4要件の充足</h2><span class="budget">13分 ／ 10枚　本セッションの中核</span></div>
+<div class="chapter"><h2>第5章　Nutanix Agent Gateway による4要件の充足</h2><span class="budget">13分 ／ 11枚　本セッションの中核</span></div>
 
 <article class="card">
-  <div class="meta"><span class="num">16</span><span class="layout">白紙 ／ 規程 2.8 適用</span><span class="badge b-fix">図</span></div>
+  <div class="meta"><span class="num">23</span><span class="layout">白紙 ／ 規程 2.8 適用</span><span class="badge b-fix">図</span></div>
   <div class="slide">
     <div class="pad">
-      <h3 class="h"><span class="lead">NAI 2.7 ― AI Gateway から改名のうえ GA</span>Nutanix Agentic AI の全体像</h3>
+      <h3 class="h">Nutanix Agentic AI の全体像</h3>
       <div class="dg">
         <svg viewBox="0 0 1000 360" role="img" aria-label="インフラ、Kubernetes、ストレージの上に Nutanix Enterprise AI が中央AIコントロールプレーンとして載り、Agent Gateway と Inference Management で構成される階層図">
           <rect x="60" y="8" width="880" height="150" fill="#C6BEFE" stroke="#131313" stroke-width="2"/>
@@ -752,14 +937,33 @@ ul.b li::before{
           </defs>
         </svg>
       </div>
-      <div class="conf">Nutanix Confidential</div><div class="pg">16</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">23</div>
     </div>
   </div>
   <p class="note">層の塗り分けは規程2.8のレイヤー色（Layer1 #D7D7D7 / Layer2 #C6BEFE / Layer3 #BFBFBF）に準拠。<b>この図は公式資料での裏取り推奨。</b></p>
 </article>
 
 <article class="card">
-  <div class="meta"><span class="num">17</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-fact">事実</span><span class="badge b-op">→ 移植性</span></div>
+  <div class="meta"><span class="num">24</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-fact">事実</span></div>
+  <div class="slide">
+    <div class="pad">
+      <h3 class="h">NAI 2.7 で Agent Gateway が GA</h3>
+      <ul class="b">
+        <li><em>2.6</em> AI Gateway ― クラウド／プライベート双方のLLMに対する統一ポリシー制御</li>
+        <li><em>2.7</em> <span class="hl">Agent Gateway へ改名のうえ GA</span>（formerly the AI Gateway）</li>
+      </ul>
+      <p class="b small" style="margin-top:2.2cqw;padding-top:1.6cqw;border-top:2px solid var(--charco)">
+        本日扱う3機能 ― 統合エンドポイント／トークンレートリミット／MCP接続制御<br>
+        ＋ ロードマップ1件 ― セマンティックルーティング
+      </p>
+      <div class="conf">Nutanix Confidential</div><div class="pg">24</div>
+    </div>
+  </div>
+  <p class="note">章のアジェンダを兼ねる。</p>
+</article>
+
+<article class="card">
+  <div class="meta"><span class="num">25</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-fact">事実</span><span class="badge b-op">→ 移植性</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h"><span class="lead">統合エンドポイント 1／3</span>単一APIで、すべてのモデルへ</h3>
@@ -773,14 +977,14 @@ ul.b li::before{
         国内調査ではパブリッククラウド 50%超・専有型 35〜45%（複数回答）。<span class="hl">多くの組織が両方を使う</span>
       </p>
       <div class="src">Source: IDC, 2026<br>Note: IDC Japan『2026年 国内AIインフラおよびAI向けITインフラサービス市場動向分析』（Doc #JPJ54233926, March 2026）<br>Note: 「Japan Digital and AI Infrastructure Strategies and Investment Survey 2026」（n=551）を基に作成</div>
-      <div class="conf">Nutanix Confidential</div><div class="pg">17</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">25</div>
     </div>
   </div>
-  <p class="note">スライド7の「4層のロックイン」を回収している。<br><b>IDCの複数回答データを追記した。</b>「パブリッククラウド50%超・専有型35〜45%」は排他ではなく<b>多くの組織が両方を使う</b>ことを示す。統合エンドポイントの価値を市場データから直接導ける。</p>
+  <p class="note">スライド12の「4層のロックイン」を回収している。<br><b>IDCの複数回答データを追記した。</b>「パブリッククラウド50%超・専有型35〜45%」は排他ではなく<b>多くの組織が両方を使う</b>ことを示す。統合エンドポイントの価値を市場データから直接導ける。</p>
 </article>
 
 <article class="card">
-  <div class="meta"><span class="num">18</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-fact">事実</span><span class="badge b-op">→ 可用性</span></div>
+  <div class="meta"><span class="num">26</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-fact">事実</span><span class="badge b-op">→ 可用性</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h"><span class="lead">統合エンドポイント 2／3</span>ロードバランス — 平常時の分散</h3>
@@ -792,14 +996,14 @@ ul.b li::before{
         <li>単一プロバイダのレート上限に張り付かない設計</li>
       </ul>
       <div class="src">※ 分散アルゴリズム・重み付けの可否・ヘルスチェック方式は公式ドキュメントで要確認</div>
-      <div class="conf">Nutanix Confidential</div><div class="pg">18</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">26</div>
     </div>
   </div>
   <p class="note">公式の Distributed Scalability（リモートNAIクラスタのプロバイダ登録）を追記した。<b>「複数クラスタに跨る分散」の具体的な実現手段</b>として、LBの説明が一段強くなる。</p>
 </article>
 
 <article class="card">
-  <div class="meta"><span class="num">19</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-fact">事実</span><span class="badge b-op">→ 可用性</span></div>
+  <div class="meta"><span class="num">27</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-fact">事実</span><span class="badge b-op">→ 可用性</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h"><span class="lead">統合エンドポイント 3／3</span>フォールバック — 異常時の退避</h3>
@@ -809,15 +1013,15 @@ ul.b li::before{
         <li>健全なバックアップのモデルエンドポイントへ自動的にルーティング</li>
         <li><span class="hl2">アプリケーションコードの改修は不要</span></li>
       </ul>
-      <p class="b tiny" style="margin-top:1.6cqw">→ スライド5「単一プロバイダ 99.9%」への直接の回答</p>
-      <div class="conf">Nutanix Confidential</div><div class="pg">19</div>
+      <p class="b tiny" style="margin-top:1.6cqw">→ スライド7「単一プロバイダ 99.9%」への直接の回答</p>
+      <div class="conf">Nutanix Confidential</div><div class="pg">27</div>
     </div>
   </div>
   <p class="note"><b>訂正済み。</b>以前記載していた「予算超過でもフォールバック」は公式ソースで確認できなかったため削除した。公式のトリガーは<b>エンドポイント障害</b>と<b>レート制限到達</b>の2つ。</p>
 </article>
 
 <article class="card">
-  <div class="meta"><span class="num">20</span><span class="layout">白紙 ／ 規程 2.8 適用</span><span class="badge b-fix">図</span></div>
+  <div class="meta"><span class="num">28</span><span class="layout">白紙 ／ 規程 2.8 適用</span><span class="badge b-fix">図</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h">ロードバランスとフォールバックの関係</h3>
@@ -888,14 +1092,14 @@ ul.b li::before{
         <span><span class="key" style="background:#B2F8FF"></span>退避先</span>
         <span>実線＝トラフィックあり ／ 破線＝停止</span>
       </div>
-      <div class="conf">Nutanix Confidential</div><div class="pg">20</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">28</div>
     </div>
   </div>
   <p class="note"><b>LBとフォールバックの混同は、この種のセッションで最も起きやすい誤解。</b>状態の区別に赤緑を使わず、破線・×印・塗り・ラベルで表現している（規程2.4のカラーユニバーサルデザイン要件）。</p>
 </article>
 
 <article class="card">
-  <div class="meta"><span class="num">21</span><span class="layout">Title and Comparison</span><span class="badge b-op">提言</span><span class="badge b-key">山場</span></div>
+  <div class="meta"><span class="num">29</span><span class="layout">Title and Comparison</span><span class="badge b-op">提言</span><span class="badge b-key">山場</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h">トークンレートリミット ＝ トークンのサーキットブレーカ</h3>
@@ -918,16 +1122,16 @@ ul.b li::before{
         </div>
       </div>
       <p class="b tiny" style="margin-top:1.6cqw;padding-top:1.4cqw;border-top:2px solid var(--charco)">
-        スライド11で示した「コストに対する遮断器が存在しない」への回答
+        スライド14で示した「コストに対する遮断器が存在しない」への回答
       </p>
-      <div class="conf">Nutanix Confidential</div><div class="pg">21</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">29</div>
     </div>
   </div>
-  <p class="note"><b>本セッションの山場。</b>スライド11の伏線をここで回収する。「トークンのサーキットブレーカ」という表現を対外的に使ってよいかは<b>事前確認が必要</b>。</p>
+  <p class="note"><b>本セッションの山場。</b>スライド14の伏線をここで回収する。「トークンのサーキットブレーカ」という表現を対外的に使ってよいかは<b>事前確認が必要</b>。</p>
 </article>
 
 <article class="card">
-  <div class="meta"><span class="num">22</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-fact">事実</span><span class="badge b-op">→ コスト予測可能性</span></div>
+  <div class="meta"><span class="num">30</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-fact">事実</span><span class="badge b-op">→ コスト予測可能性</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h"><span class="lead">トークンレートリミット 2／2</span>中央で強制し、単位ごとに可視化する</h3>
@@ -937,14 +1141,14 @@ ul.b li::before{
         <li>モデルベンダーを横断してトークン使用量を可視化</li>
         <li>目的は明快 ― <span class="hl2">bill shock を防ぐ</span></li>
       </ul>
-      <div class="conf">Nutanix Confidential</div><div class="pg">22</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">30</div>
     </div>
   </div>
   <p class="note">粒度を公式表記（per endpoint / per user）に修正。<b>"bill shock" は Nutanix 自身の言葉</b>なのでそのまま使える。ダッシュボード画面が入手できればここに差し込むと効果的。</p>
 </article>
 
 <article class="card">
-  <div class="meta"><span class="num">23</span><span class="layout">Three Key Points</span><span class="badge b-op">提言</span></div>
+  <div class="meta"><span class="num">31</span><span class="layout">Three Key Points</span><span class="badge b-op">提言</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h">トークン遮断の設計論点</h3>
@@ -954,14 +1158,14 @@ ul.b li::before{
         <div class="cell"><p class="cell-n">HOW MUCH</p><p class="cell-t">閾値の設計</p><p class="cell-d">ハードリミットか、警告閾値を別に設けるか</p></div>
       </div>
       <p class="b tiny" style="margin-top:1.8cqw">「遮断」と「降格」のどちらを選ぶかは、業務要件次第</p>
-      <div class="conf">Nutanix Confidential</div><div class="pg">23</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">31</div>
     </div>
   </div>
   <p class="note">「コストを止めたら業務も止まるのでは」という当然の反論に、<b>降格という第三の選択肢</b>で先回りして答えている。</p>
 </article>
 
 <article class="card">
-  <div class="meta"><span class="num">24</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-fact">事実</span><span class="badge b-op">→ データ主権</span></div>
+  <div class="meta"><span class="num">32</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-fact">事実</span><span class="badge b-op">→ データ主権</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h">MCP接続制御 <span style="font-size:calc(14*var(--pt));font-weight:700;background:var(--charco);color:#fff;padding:.3cqw 1cqw;vertical-align:middle">Tech Preview</span></h3>
@@ -972,14 +1176,14 @@ ul.b li::before{
         <li>レイテンシと呼び出されたツール名を含む全リクエストを記録</li>
       </ul>
       <div class="src">※ MCPサーバーガバナンスおよび同梱テストエージェントは Tech Preview であり、本番利用は想定されていません</div>
-      <div class="conf">Nutanix Confidential</div><div class="pg">24</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">32</div>
     </div>
   </div>
   <p class="note">公式で粒度が確定した。<b>ツール単位で Read Only / Write を分けられる</b>のが要点。例：カスタマーサービス用エージェントはDB読み取りのみ、DevOps用エージェントはGitHub書き込みまで許可。GA予定時期は必ず訊かれるので事前確認を。</p>
 </article>
 
 <article class="card">
-  <div class="meta"><span class="num">25</span><span class="layout">Title and Comparison</span><span class="badge b-op">提言</span><span class="badge b-key">回収</span></div>
+  <div class="meta"><span class="num">33</span><span class="layout">Title and Comparison</span><span class="badge b-op">提言</span><span class="badge b-key">回収</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h">答え合わせ — 4要件はすべて基盤層で充足できる</h3>
@@ -991,35 +1195,51 @@ ul.b li::before{
         <tr><td>データ主権</td><td>MCP接続制御（Tech Preview）</td></tr>
       </table>
       <p class="b tiny" style="margin-top:1.4cqw">実行環境：任意のCNCF準拠Kubernetes ／ オンプレミス・エッジ・NEO Cloud・パブリッククラウド</p>
-      <div class="conf">Nutanix Confidential</div><div class="pg">25</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">33</div>
     </div>
   </div>
   <p class="note">スライド3で渡した地図をここで回収する。<b>冒頭と末尾で同じ表を出すことで、章全体が論証として閉じる。</b></p>
 </article>
 
 <!-- ══════════ 第6章 ══════════ -->
-<div class="chapter"><h2>第6章　ロードマップ：セマンティックルーティング</h2><span class="budget">3分 ／ 2枚</span></div>
+<div class="chapter"><h2>第6章　ロードマップ：セマンティックルーティング</h2><span class="budget">4分 ／ 3枚</span></div>
 
 <article class="card">
-  <div class="meta"><span class="num">26</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-out">展望</span></div>
+  <div class="meta"><span class="num">34</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-op">提言</span></div>
+  <div class="slide">
+    <div class="pad">
+      <h3 class="h">ここまでの前提 — モデルを選ぶのはアプリ側</h3>
+      <ul class="b">
+        <li>ここまでの機能は、どのモデルを呼ぶかをアプリが指定する前提</li>
+        <li>しかし最適なモデルは<span class="hl">リクエストの内容に依存する</span></li>
+        <li>全要求を最上位モデルへ送れば品質は満たせる</li>
+        <li>ただしコスト効率は最も悪くなる</li>
+      </ul>
+      <div class="conf">Nutanix Confidential</div><div class="pg">34</div>
+    </div>
+  </div>
+  <p class="note">次スライドへの問題提起。</p>
+</article>
+
+<article class="card">
+  <div class="meta"><span class="num">35</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-out">展望</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h">セマンティックルーティング</h3>
       <ul class="b">
-        <li>ここまでは、どのモデルを呼ぶかを<em>アプリが指定する</em>前提だった</li>
         <li>リクエストの<span class="hl2">意味内容・複雑性・意図</span>に基づき、モデルを動的に選択</li>
         <li>単純な要求は小型モデルへ、困難な要求は高性能モデルへ</li>
         <li><span class="hl">判定をGateway層に置けば、全アプリへ一貫したポリシーが自動適用される</span></li>
       </ul>
       <div class="src">※ 本機能はロードマップです。提供時期・仕様は未確定です</div>
-      <div class="conf">Nutanix Confidential</div><div class="pg">26</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">35</div>
     </div>
   </div>
   <p class="note" style="border-left:3px solid var(--chrome-accent);padding-left:14px"><b>⚠️ 公開情報に裏付けがありません。</b> nutanix.com を対象に再調査しましたが、<b>「semantic routing」という名称の機能・ロードマップは公式サイトに存在しませんでした</b>。公式に確認できる近縁機能は kvCache Aware Routing（NAI 2.6 / Tech Preview、TTFT削減が目的）と、Traefik Labs 側の intelligent model routing の2つで、いずれも別概念です。<b>社内ロードマップ情報である可能性が高いため、開示可否の確認を最優先で</b>（規程2.5）。
 </article>
 
 <article class="card">
-  <div class="meta"><span class="num">27</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-out">展望</span></div>
+  <div class="meta"><span class="num">36</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-out">展望</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h">何が変わるか</h3>
@@ -1030,17 +1250,17 @@ ul.b li::before{
         <li>ルーティングポリシーは一度定義すればよい</li>
       </ul>
       <div class="src">※ 本機能はロードマップです。提供時期・仕様は未確定です</div>
-      <div class="conf">Nutanix Confidential</div><div class="pg">27</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">36</div>
     </div>
   </div>
   <p class="note"><b>具体的な単価差の倍率は載せていない。</b>出典が二次情報で、かつ単価は変動するため。<br><b>代替案：</b>開示できない場合は、公式に裏付けのある <b>kvCache Aware Routing</b> をロードマップ章の題材にできる。ただし主旨が「コスト最適化」から「レイテンシ最適化（TTFT削減）」へ変わるため、第6章の見出しごと差し替えが必要。</p>
 </article>
 
 <!-- ══════════ 第7章 ══════════ -->
-<div class="chapter"><h2>第7章　リファレンスアーキテクチャと導入手順</h2><span class="budget">3分 ／ 2枚</span></div>
+<div class="chapter"><h2>第7章　リファレンスアーキテクチャと導入手順</h2><span class="budget">3分 ／ 3枚</span></div>
 
 <article class="card">
-  <div class="meta"><span class="num">28</span><span class="layout">白紙 ／ 規程 2.8 適用</span><span class="badge b-fix">図</span></div>
+  <div class="meta"><span class="num">37</span><span class="layout">白紙 ／ 規程 2.8 適用</span><span class="badge b-fix">図</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h">リファレンス構成</h3>
@@ -1095,14 +1315,70 @@ ul.b li::before{
           </defs>
         </svg>
       </div>
-      <div class="conf">Nutanix Confidential</div><div class="pg">28</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">37</div>
     </div>
   </div>
   <p class="note">番号付きコールアウトは規程2.8準拠（チャコール円・白文字・上から下へ採番）。</p>
 </article>
 
 <article class="card">
-  <div class="meta"><span class="num">29</span><span class="layout">Timeline-2</span><span class="badge b-op">提言</span></div>
+  <div class="meta"><span class="num">38</span><span class="layout">白紙 ／ 規程 2.8 適用</span><span class="badge b-fix">図</span></div>
+  <div class="slide">
+    <div class="pad">
+      <h3 class="h">障害時のふるまい</h3>
+      <div class="dg">
+        <svg viewBox="0 0 1000 300" role="img" aria-label="平常時から劣化検知、退避、正常応答の継続までを時系列で示すシーケンス図">
+          <!-- lifelines -->
+          <text x="70" y="24" font-size="13" font-weight="700" text-anchor="middle">アプリ</text>
+          <text x="300" y="24" font-size="13" font-weight="700" text-anchor="middle">Agent Gateway</text>
+          <text x="600" y="24" font-size="13" font-weight="700" text-anchor="middle">プライマリ</text>
+          <text x="850" y="24" font-size="13" font-weight="700" text-anchor="middle">フォールバック先</text>
+          <line x1="70" y1="34" x2="70" y2="276" stroke="#131313" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="300" y1="34" x2="300" y2="276" stroke="#131313" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="600" y1="34" x2="600" y2="276" stroke="#131313" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="850" y1="34" x2="850" y2="276" stroke="#131313" stroke-width="1" stroke-dasharray="4 4"/>
+
+          <!-- step 1 -->
+          <circle cx="26" cy="66" r="12" fill="#131313"/><text x="26" y="71" font-size="11" fill="#FFF" text-anchor="middle" font-weight="700">1</text>
+          <line x1="70" y1="66" x2="296" y2="66" stroke="#131313" stroke-width="2" marker-end="url(#a5)"/>
+          <text x="183" y="58" font-size="11" font-style="italic" text-anchor="middle">推論要求</text>
+          <line x1="300" y1="98" x2="596" y2="98" stroke="#131313" stroke-width="2" marker-end="url(#a5)"/>
+          <text x="448" y="90" font-size="11" font-style="italic" text-anchor="middle">LBにより分散</text>
+
+          <!-- step 2 degrade -->
+          <circle cx="26" cy="146" r="12" fill="#131313"/><text x="26" y="151" font-size="11" fill="#FFF" text-anchor="middle" font-weight="700">2</text>
+          <line x1="600" y1="146" x2="304" y2="146" stroke="#131313" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#a5)"/>
+          <text x="452" y="138" font-size="11" font-style="italic" text-anchor="middle">エラー／タイムアウト</text>
+          <rect x="556" y="158" width="88" height="26" fill="#BFBFBF" stroke="#131313" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <text x="600" y="176" font-size="10" text-anchor="middle" font-style="italic">劣化を検知</text>
+
+          <!-- step 3 failover -->
+          <circle cx="26" cy="212" r="12" fill="#131313"/><text x="26" y="217" font-size="11" fill="#FFF" text-anchor="middle" font-weight="700">3</text>
+          <line x1="300" y1="212" x2="846" y2="212" stroke="#131313" stroke-width="2.5" marker-end="url(#a5)"/>
+          <text x="573" y="204" font-size="11" font-style="italic" text-anchor="middle">フォールバック先へ退避（アプリの改修なし）</text>
+
+          <!-- step 4 -->
+          <circle cx="26" cy="258" r="12" fill="#131313"/><text x="26" y="263" font-size="11" fill="#FFF" text-anchor="middle" font-weight="700">4</text>
+          <line x1="296" y1="258" x2="74" y2="258" stroke="#131313" stroke-width="2.5" marker-end="url(#a5)"/>
+          <text x="185" y="250" font-size="11" font-style="italic" text-anchor="middle">正常応答（継続）</text>
+          <rect x="330" y="242" width="150" height="30" fill="#B2F8FF" stroke="#131313" stroke-width="2"/>
+          <text x="405" y="262" font-size="11" text-anchor="middle" font-weight="700">アプリからは変化なし</text>
+
+          <defs>
+            <marker id="a5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0 0 L10 5 L0 10 z" fill="#131313"/>
+            </marker>
+          </defs>
+        </svg>
+      </div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">38</div>
+    </div>
+  </div>
+  <p class="note">実線＝成功、破線＝失敗で表現。<b>赤緑を使わずに正常／異常を区別している。</b>ライブデモを行う場合はこの図を先に見せてから実演すると理解が早い。</p>
+</article>
+
+<article class="card">
+  <div class="meta"><span class="num">39</span><span class="layout">Timeline-2</span><span class="badge b-op">提言</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h">段階的な導入手順</h3>
@@ -1114,7 +1390,7 @@ ul.b li::before{
         <div class="tl-i"><div class="tl-n">5</div><div class="tl-b"><p class="tl-t">統制</p><p class="tl-d">MCP接続制御を適用する</p></div></div>
       </div>
       <p class="b tiny" style="margin-top:1.6cqw"><span class="hl">Step 1 を可観測性の確保のみに限定することが、導入判断の障壁を下げる</span></p>
-      <div class="conf">Nutanix Confidential</div><div class="pg">29</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">39</div>
     </div>
   </div>
   <p class="note">番号が実際の順序を表しているため、番号付きマーカーが情報として機能している。<b>IT Pro が社内で説明するときの筋書きをそのまま渡す。</b></p>
@@ -1124,7 +1400,7 @@ ul.b li::before{
 <div class="chapter"><h2>クロージング</h2><span class="budget">2分 ／ 2枚</span></div>
 
 <article class="card">
-  <div class="meta"><span class="num">30</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-op">提言</span></div>
+  <div class="meta"><span class="num">40</span><span class="layout">タイトルとコンテンツ</span><span class="badge b-op">提言</span></div>
   <div class="slide">
     <div class="pad">
       <h3 class="h">まとめ</h3>
@@ -1134,14 +1410,14 @@ ul.b li::before{
         <li>アプリケーションを改修せず、基盤層で充足できる</li>
         <li>次の一手はセマンティックルーティング（ロードマップ）</li>
       </ul>
-      <div class="conf">Nutanix Confidential</div><div class="pg">30</div>
+      <div class="conf">Nutanix Confidential</div><div class="pg">40</div>
     </div>
   </div>
   <p class="note">4要件の再掲で閉じる。</p>
 </article>
 
 <article class="card">
-  <div class="meta"><span class="num">31</span><span class="layout">1_Built for the Future_Thank You_Q&amp;A</span><span class="badge b-fix">固定</span></div>
+  <div class="meta"><span class="num">41</span><span class="layout">1_Built for the Future_Thank You_Q&amp;A</span><span class="badge b-fix">固定</span></div>
   <div class="slide slide--dark">
     <div class="pad">
       <p class="title-s">BUILT FOR THE FUTURE</p>
@@ -1154,11 +1430,7 @@ ul.b li::before{
 <footer class="foot">
   <p><b>このドラフトについて。</b> 支給テンプレート NEXT_2026_PPT_Template.pptx のガイドスライド（1〜6）およびアーキテクチャ図規程（132〜171）に準拠して作成しています。文字サイズは pt 実寸、配色は 3色＋白、赤・緑は不使用です。</p>
   <p><b>登壇前に必要な作業。</b> ① Nutanix 製品仕様の一次情報での裏取り（本ドラフトは報道・検索結果に基づく再構成です） ② 「トークンのサーキットブレーカ」表現の対外利用可否の確認 ③ セマンティックルーティングの開示可能範囲の確認 ④ <b>IDCレポートの社外公開資料での引用許諾の確認</b> ⑤ Glean「.NEXT Tokyo 2026 Expert Brand Reviewer」でのブランドチェック ⑥ 本文テキストの登壇者自身によるリライト（生成AI規程 2.6）。</p>
-  <p><b>IDC引用箇所（5枚）。</b> スライド4 市場の転換点（Table 3 より自作グラフ）／ スライド7 4つの非機能要件（調査による裏付け）／ スライド8 コスト予測可能性（為替リスク）／ スライド9 データ主権（ソブリンAI推進目的）／ スライド17 単一API（配備形態の複数回答）。いずれも <b>Source: IDC, 2026</b> と Doc番号・調査名・n数を10ptで明記しています。</p>
-  <p><b>35分版への圧縮。</b> 41分版から10枚を削減しました。<b>必須4要素（統合エンドポイント／トークンレートリミット／MCP接続制御／セマンティックルーティング）、IDC引用5枚、第5章10枚はすべて維持</b>しています。<br>
-  <b>統合して残した内容</b> ― 依存構造の変化→スライド4の見出しへ、SLA水準→スライド5へ統合、責務分離の結論→スライド12へ、NAI 2.7のGA→スライド16の見出しへ、静的ルーティングの前提→スライド26へ。<br>
-  <b>完全に削除した5枚</b> ― 移植性の単独枚（スライド7で定義済み）、タイムアウト2階層、Gateway位置づけ図（スライド28のリファレンス構成図と重複）、市場における一般解（口頭1文へ）、障害時シーケンス図（スライド20の状態遷移図と重複）。<br>
-  41分版は <code>draft-slides-41min.html</code> に保存しています。</p>
+  <p><b>IDC引用箇所（5枚）。</b> スライド5 市場の転換点（Table 3 より自作グラフ）／ スライド9 4つの非機能要件（調査による裏付け）／ スライド10 コスト予測可能性（為替リスク）／ スライド11 データ主権（ソブリンAI推進目的）／ スライド25 単一API（配備形態の複数回答）。いずれも <b>Source: IDC, 2026</b> と Doc番号・調査名・n数を10ptで明記しています。</p>
   <p><b>提出期日。</b> 講演資料ドラフト 8月7日 ／ 最終版 8月26日 ／ .NEXT On Tour Tokyo 当日 9月8日。</p>
 </footer>
 
